@@ -131,20 +131,28 @@ h3 {
   font-weight: 700;
 }
 
-/* Header: Donate me Top-Left, ERIST Right */
+/* Header: Donate me Top-Left, Doritos Maker + ERIST Right */
 .site-header {
   background: transparent;
 }
 
 .header-inner {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 10px 16px;
   min-height: 76px;
+  padding: 14px 0;
 }
 
-.donate-nav-btn {
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-pill-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -164,8 +172,8 @@ h3 {
     box-shadow 0.32s var(--ease-spring);
 }
 
-.donate-nav-btn:hover,
-.donate-nav-btn:focus-visible {
+.header-pill-btn:hover,
+.header-pill-btn:focus-visible {
   background: var(--tile-hover-bg);
   border-color: var(--tile-hover-border);
   transform: translateY(-3px);
@@ -494,6 +502,74 @@ h3 {
   transform: translateY(-2px);
 }
 
+/* Favourite Games Grid — Uniform Tiles */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.game-tile {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 12px 16px;
+  border-radius: 16px;
+  background: var(--tile-bg);
+  border: 1px solid var(--tile-border);
+  text-decoration: none;
+  color: var(--ink);
+  transition:
+    background-color 0.32s var(--ease-spring),
+    border-color 0.32s var(--ease-spring),
+    transform 0.32s var(--ease-spring),
+    box-shadow 0.32s var(--ease-spring);
+}
+
+.game-tile:hover,
+.game-tile:focus-visible {
+  background: var(--tile-hover-bg);
+  border-color: var(--tile-hover-border);
+  transform: translateY(-5px);
+  box-shadow: var(--tile-hover-shadow);
+}
+
+.game-cover {
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 2 / 3;
+  background: rgba(24, 20, 9, 0.08);
+  margin-bottom: 12px;
+}
+
+.game-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.38s var(--ease-spring);
+}
+
+.game-tile:hover .game-cover img,
+.game-tile:focus-visible .game-cover img {
+  transform: scale(1.04);
+}
+
+.game-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 4px;
+}
+
+.game-meta h3 {
+  font-size: 1.02rem;
+}
+
+.game-genre {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
 /* Gear & Monitor Grids — Uniform Tiles */
 .gear-grid {
   display: grid;
@@ -652,74 +728,6 @@ h3 {
   line-height: 1.4;
 }
 
-/* Doritos Maker Tile */
-.doritos-tile {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 24px 28px;
-  border-radius: 16px;
-  background: var(--tile-bg);
-  border: 1px solid var(--tile-border);
-  text-decoration: none;
-  color: var(--ink);
-  transition:
-    background-color 0.32s var(--ease-spring),
-    border-color 0.32s var(--ease-spring),
-    transform 0.32s var(--ease-spring),
-    box-shadow 0.32s var(--ease-spring);
-}
-
-.doritos-tile:hover,
-.doritos-tile:focus-visible {
-  background: var(--tile-hover-bg);
-  border-color: var(--tile-hover-border);
-  transform: translateY(-5px);
-  box-shadow: var(--tile-hover-shadow);
-}
-
-.doritos-left {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  min-width: 0;
-}
-
-.doritos-ahoge-icon {
-  flex-shrink: 0;
-  transition: transform 0.36s var(--ease-spring);
-}
-
-.doritos-tile:hover .doritos-ahoge-icon,
-.doritos-tile:focus-visible .doritos-ahoge-icon {
-  transform: translateY(-4px) rotate(6deg) scale(1.08);
-}
-
-.doritos-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-
-.doritos-desc {
-  font-size: 0.9rem;
-  color: var(--ink-soft);
-  word-break: break-word;
-}
-
-.doritos-arrow {
-  flex-shrink: 0;
-  color: var(--ink);
-  transition: transform 0.3s var(--ease-spring);
-}
-
-.doritos-tile:hover .doritos-arrow,
-.doritos-tile:focus-visible .doritos-arrow {
-  transform: translate(4px, -4px);
-}
-
 /* Bottom Buy me some caffeine Tile */
 .donate-tile {
   display: flex;
@@ -811,6 +819,10 @@ h3 {
 
 /* Responsive */
 @media (max-width: 860px) {
+  .games-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .gear-grid,
   .monitors-grid,
   .potato-tile,
@@ -863,13 +875,18 @@ h3 {
     padding: 0 18px;
   }
 
-  .donate-nav-btn {
-    font-size: 0.84rem;
-    padding: 8px 13px;
+  .header-right {
+    gap: 10px;
+  }
+
+  .header-pill-btn {
+    font-size: 0.78rem;
+    padding: 7px 10px;
+    gap: 6px;
   }
 
   .brand-name {
-    font-size: 0.96rem;
+    font-size: 0.92rem;
   }
 
   .hero {
@@ -889,9 +906,8 @@ h3 {
     padding: 32px 0 4px;
   }
 
-  .doritos-tile {
-    padding: 20px;
-    gap: 14px;
+  .games-grid {
+    gap: 12px;
   }
 
   .donate-link {

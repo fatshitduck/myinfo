@@ -27,7 +27,7 @@
 
   <header class="site-header">
     <div class="container header-inner">
-      <a href="#donate" id="donate-scroll-btn" class="donate-nav-btn">
+      <a href="#donate" id="donate-scroll-btn" class="header-pill-btn">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
           <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
@@ -38,12 +38,26 @@
         <span>Donate me</span>
       </a>
 
-      <a href="#top" class="brand" aria-label="Erist trang chủ">
-        <svg class="brand-mark" viewBox="0 0 32 32" width="24" height="24" aria-hidden="true">
-          <path d="M5.5 26.5 L25.5 4.5 L24.2 24.8 Q24 26.8 21.8 26.8 L6.6 26.8 Q4.6 26.8 5.5 26.5 Z" fill="#F6D76B" stroke="#181409" stroke-width="2.6" stroke-linejoin="round" />
-        </svg>
-        <span class="brand-name">ERIST</span>
-      </a>
+      <div class="header-right">
+        <a
+          href="https://tamanidamani.itch.io/nijikas-ahoge"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="header-pill-btn"
+        >
+          <svg viewBox="0 0 32 32" width="16" height="16" aria-hidden="true">
+            <path d="M5.5 26.5 L25.5 4.5 L24.2 24.8 Q24 26.8 21.8 26.8 L6.6 26.8 Q4.6 26.8 5.5 26.5 Z" fill="#F6D76B" stroke="#181409" stroke-width="2.6" stroke-linejoin="round" />
+          </svg>
+          <span>Doritos Maker</span>
+        </a>
+
+        <a href="#top" class="brand" aria-label="Erist trang chủ">
+          <svg class="brand-mark" viewBox="0 0 32 32" width="24" height="24" aria-hidden="true">
+            <path d="M5.5 26.5 L25.5 4.5 L24.2 24.8 Q24 26.8 21.8 26.8 L6.6 26.8 Q4.6 26.8 5.5 26.5 Z" fill="#F6D76B" stroke="#181409" stroke-width="2.6" stroke-linejoin="round" />
+          </svg>
+          <span class="brand-name">ERIST</span>
+        </a>
+      </div>
     </div>
   </header>
 
@@ -172,6 +186,97 @@
           </div>
         </div>
       </article>
+    </section>
+
+    <!-- Favourite Games Section -->
+    <section class="showcase-section" aria-labelledby="heading-games">
+      <h2 id="heading-games">Favourite Games</h2>
+
+      <div class="games-grid">
+        <a
+          href="https://store.steampowered.com/app/730/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="game-tile"
+        >
+          <div class="game-cover">
+            <img
+              src="assets/game-cs2.jpg"
+              alt="Counter-Strike 2"
+              width="600"
+              height="900"
+              loading="eager"
+            />
+          </div>
+          <div class="game-meta">
+            <h3>Counter-Strike 2</h3>
+            <span class="game-genre">Tactical FPS</span>
+          </div>
+        </a>
+
+        <a
+          href="https://store.steampowered.com/app/594650/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="game-tile"
+        >
+          <div class="game-cover">
+            <img
+              src="assets/game-hunt.jpg"
+              alt="Hunt: Showdown"
+              width="600"
+              height="900"
+              loading="eager"
+            />
+          </div>
+          <div class="game-meta">
+            <h3>Hunt: Showdown</h3>
+            <span class="game-genre">Extraction FPS</span>
+          </div>
+        </a>
+
+        <a
+          href="https://store.steampowered.com/app/1238840/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="game-tile"
+        >
+          <div class="game-cover">
+            <img
+              src="assets/game-bf1.jpg"
+              alt="Battlefield 1"
+              width="600"
+              height="900"
+              loading="eager"
+            />
+          </div>
+          <div class="game-meta">
+            <h3>Battlefield 1</h3>
+            <span class="game-genre">WW1 Shooter</span>
+          </div>
+        </a>
+
+        <a
+          href="https://store.steampowered.com/app/1238810/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="game-tile"
+        >
+          <div class="game-cover">
+            <img
+              src="assets/game-bf5.jpg"
+              alt="Battlefield V"
+              width="600"
+              height="900"
+              loading="eager"
+            />
+          </div>
+          <div class="game-meta">
+            <h3>Battlefield V</h3>
+            <span class="game-genre">WW2 Shooter</span>
+          </div>
+        </a>
+      </div>
     </section>
 
     <!-- Gear Section -->
@@ -323,35 +428,6 @@
           </div>
         </dl>
       </article>
-    </section>
-
-    <!-- Doritos Maker Section -->
-    <section class="showcase-section" aria-labelledby="heading-doritos">
-      <h2 id="heading-doritos">Doritos Maker</h2>
-
-      <a
-        href="https://tamanidamani.itch.io/nijikas-ahoge"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="doritos-tile"
-      >
-        <div class="doritos-left">
-          <svg class="doritos-ahoge-icon" viewBox="0 0 32 32" width="44" height="44" aria-hidden="true">
-            <path d="M5.5 26.5 L25.5 4.5 L24.2 24.8 Q24 26.8 21.8 26.8 L6.6 26.8 Q4.6 26.8 5.5 26.5 Z" fill="#F6D76B" stroke="#181409" stroke-width="2.4" stroke-linejoin="round" />
-          </svg>
-          <div class="doritos-info">
-            <h3>Nijika's Ahoge</h3>
-            <p class="doritos-desc">Mini-game kéo dài chỏm tóc Dorito vô tận • tamanidamani.itch.io</p>
-          </div>
-        </div>
-
-        <span class="doritos-arrow" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M7 17L17 7" />
-            <path d="M8 7H17V16" />
-          </svg>
-        </span>
-      </a>
     </section>
 
     <!-- Bottom Buy me some caffeine PayPal QR Section -->
