@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hồ sơ cá nhân | Steam Profile</title>
+  <meta name="description" content="Trang giới thiệu cá nhân, game yêu thích và thông tin liên hệ." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <main class="container">
+    <!-- Hero / Profile Header -->
+    <section class="card hero-card">
+      <div class="avatar-wrap">
+        <img
+          src="https://avatars.fastly.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg"
+          alt="Avatar cá nhân"
+          class="avatar"
+        />
+        <span class="status-dot" title="Online"></span>
+      </div>
+
+      <div class="hero-info">
+        <div class="name-row">
+          <h1>Tên Của Bạn</h1>
+          <span class="badge">Level 42 • Gamer</span>
+        </div>
+        <p class="tagline">
+          Chào mừng đến với góc nhỏ của mình. Thích chơi game co-op, FPS và khám phá thế giới mở.
+        </p>
+
+        <div class="meta-row">
+          <span>📍 Việt Nam</span>
+          <span>🕒 UTC+7</span>
+          <span>🎮 Steam Friend Code: <button class="copy-chip" data-copy="123456789" title="Nhấn để sao chép">123456789 📋</button></span>
+        </div>
+
+        <div class="actions">
+          <a href="https://steamcommunity.com/id/your-id" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Mở Steam Profile
+          </a>
+          <button class="btn btn-secondary copy-chip" data-copy="your_discord_tag">
+            Copy Discord
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- About & Setup Grid -->
+    <div class="grid-2">
+      <section class="card">
+        <h2>Giới thiệu</h2>
+        <p class="muted">
+          Mình thường online vào buổi tối và cuối tuần. Nếu bạn muốn tìm đồng đội bắn CS2, leo rank hoặc chơi các game sinh tồn/co-op vui vẻ thì cứ kết bạn Steam hoặc nhắn qua Discord nhé!
+        </p>
+        <ul class="tag-list">
+          <li>FPS / Tactical</li>
+          <li>Co-op</li>
+          <li>RPG</li>
+          <li>Chill &amp; Talk</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Cấu hình PC (Setup)</h2>
+        <ul class="spec-list">
+          <li><span>CPU</span><strong>AMD Ryzen 5 / Intel Core i5</strong></li>
+          <li><span>GPU</span><strong>NVIDIA RTX 4060</strong></li>
+          <li><span>RAM</span><strong>32GB DDR4 / DDR5</strong></li>
+          <li><span>Gear</span><strong>Chuột không dây • Tai nghe Gaming</strong></li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Favorite Games -->
+    <section class="card">
+      <div class="section-head">
+        <h2>Game đang chơi &amp; Yêu thích</h2>
+        <span class="muted small">Cập nhật thủ công</span>
+      </div>
+
+      <div class="games-grid">
+        <article class="game-item">
+          <div class="game-top">
+            <h3>Counter-Strike 2</h3>
+            <span class="hours">1,200+ hrs</span>
+          </div>
+          <p class="muted small">Rifler / Premier cùng bạn bè</p>
+        </article>
+
+        <article class="game-item">
+          <div class="game-top">
+            <h3>Elden Ring</h3>
+            <span class="hours">180 hrs</span>
+          </div>
+          <p class="muted small">100% Achievements • DLC Completed</p>
+        </article>
+
+        <article class="game-item">
+          <div class="game-top">
+            <h3>Left 4 Dead 2 / Co-op</h3>
+            <span class="hours">340 hrs</span>
+          </div>
+          <p class="muted small">Custom maps &amp; giải trí cuối tuần</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Links -->
+    <section class="card">
+      <h2>Liên kết khác</h2>
+      <div class="links-grid">
+        <a href="https://steamcommunity.com/id/your-id" target="_blank" rel="noopener noreferrer" class="link-tile">
+          <span class="link-title">Steam</span>
+          <span class="link-sub">steamcommunity.com/id/your-id</span>
+        </a>
+        <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="link-tile">
+          <span class="link-title">Discord</span>
+          <span class="link-sub">@your_discord_tag</span>
+        </a>
+        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="link-tile">
+          <span class="link-title">YouTube</span>
+          <span class="link-sub">Highlights &amp; Clips</span>
+        </a>
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="link-tile">
+          <span class="link-title">GitHub</span>
+          <span class="link-sub">@your_github</span>
+        </a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© <span id="year"></span> Tên Của Bạn • Hosted for free</p>
+    </footer>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
