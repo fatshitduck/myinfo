@@ -652,6 +652,17 @@ h3 {
     padding: 0 18px;
   }
 
+  .donate-nav-btn {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+    gap: 7px;
+    white-space: nowrap;
+  }
+
+  .brand-name {
+    font-size: 0.96rem;
+  }
+
   .hero {
     padding: 20px 0 28px;
   }
