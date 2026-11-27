@@ -77,6 +77,129 @@ if (donateScrollBtn) {
     });
 })();
 
+// Live Discord Profile Card (ID: 737671991288397915) — Lanyard first, japi.rest fallback
+(function initDiscordProfile() {
+  const userId = "737671991288397915";
+  const lanyardUrl = `https://api.lanyard.rest/v1/users/${userId}`;
+  const japiUrl = `https://japi.rest/discord/v1/user/${userId}`;
+
+  const avatarEl = document.getElementById("discord-avatar");
+  const decoEl = document.getElementById("discord-deco");
+  const statusEl = document.getElementById("discord-status");
+  const nameEl = document.getElementById("discord-name");
+  const handleEl = document.getElementById("discord-handle");
+  const clanWrap = document.getElementById("discord-clan");
+  const clanBadgeEl = document.getElementById("discord-clan-badge");
+  const clanTagEl = document.getElementById("discord-clan-tag");
+  const activityEl = document.getElementById("discord-activity");
+
+  if (!avatarEl || !statusEl || !nameEl || !handleEl) return;
+
+  avatarEl.addEventListener("error", () => {
+    if (!avatarEl.src.endsWith("assets/discord-avatar.png")) {
+      avatarEl.src = "assets/discord-avatar.png";
+    }
+  });
+
+  if (decoEl) {
+    decoEl.addEventListener("error", () => {
+      decoEl.hidden = true;
+    });
+  }
+
+  if (clanBadgeEl) {
+    clanBadgeEl.addEventListener("error", () => {
+      clanBadgeEl.hidden = true;
+    });
+  }
+
+  function applyUserFields(user, fallbackAvatarUrl) {
+    if (!user || typeof user !== "object") return;
+
+    const displayName = user.global_name || user.display_name || user.username;
+    if (displayName) nameEl.textContent = displayName;
+    if (user.username) handleEl.textContent = user.username;
+
+    if (user.avatar) {
+      const ext = user.avatar.startsWith("a_") ? "gif" : "png";
+      avatarEl.src = `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.${ext}?size=256`;
+    } else if (fallbackAvatarUrl) {
+      avatarEl.src = `${fallbackAvatarUrl}?size=256`;
+    }
+
+    if (decoEl && user.avatar_decoration_data && user.avatar_decoration_data.asset) {
+      decoEl.src = `https://cdn.discordapp.com/avatar-decoration-presets/${user.avatar_decoration_data.asset}.png`;
+      decoEl.hidden = false;
+    }
+
+    const guild = user.primary_guild || user.clan;
+    if (clanWrap && clanTagEl && guild && guild.tag) {
+      clanTagEl.textContent = guild.tag;
+      if (clanBadgeEl && guild.identity_guild_id && guild.badge) {
+        clanBadgeEl.src = `https://cdn.discordapp.com/clan-badges/${guild.identity_guild_id}/${guild.badge}.png?size=64`;
+        clanBadgeEl.hidden = false;
+      } else if (clanBadgeEl) {
+        clanBadgeEl.hidden = true;
+      }
+      clanWrap.hidden = false;
+    }
+  }
+
+  function applyStatus(status) {
+    const allowed = ["online", "idle", "dnd", "offline"];
+    const normalized = allowed.includes(status) ? status : "offline";
+    statusEl.className = `discord-status status-${normalized}`;
+  }
+
+  function applyActivity(data) {
+    if (!activityEl || !data || typeof data !== "object") return;
+    let text = "";
+
+    if (data.listening_to_spotify && data.spotify && data.spotify.song) {
+      text = `Listening to ${data.spotify.song} — ${data.spotify.artist || ""}`.replace(/\s—\s$/, "");
+    } else if (Array.isArray(data.activities)) {
+      const game = data.activities.find((a) => a && a.type === 0 && a.name);
+      const custom = data.activities.find((a) => a && a.type === 4 && a.state);
+      if (game) {
+        text = `Playing ${game.name}`;
+      } else if (custom) {
+        text = custom.state;
+      }
+    }
+
+    if (text) {
+      activityEl.textContent = text;
+      activityEl.hidden = false;
+    } else {
+      activityEl.hidden = true;
+    }
+  }
+
+  fetch(lanyardUrl)
+    .then((res) => (res.ok ? res.json() : null))
+    .then((json) => {
+      if (json && json.success && json.data && json.data.discord_user) {
+        applyUserFields(json.data.discord_user);
+        applyStatus(json.data.discord_status);
+        applyActivity(json.data);
+        return true;
+      }
+      return false;
+    })
+    .catch(() => false)
+    .then((handled) => {
+      if (handled) return null;
+      return fetch(japiUrl)
+        .then((res) => (res.ok ? res.json() : null))
+        .then((json) => {
+          if (json && json.data) {
+            applyUserFields(json.data, json.data.avatarURL);
+          }
+        })
+        .catch(() => {});
+    });
+})();
+
 // Kinetic Erist Title — cycles smoothly every 3 seconds across 6 display modes
 (function initKineticErist() {
   const stage = document.getElementById("erist-stage");

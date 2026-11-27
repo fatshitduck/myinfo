@@ -205,7 +205,21 @@ h3 {
 
 /* Kinetic Hero */
 .hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 36px;
   padding: 28px 0 36px;
+}
+
+.hero-main {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 .erist-title {
@@ -365,6 +379,159 @@ h3 {
 
 .icon-tile:hover svg,
 .icon-tile:focus-visible svg {
+  transform: scale(1.08);
+}
+
+/* Embedded Discord Profile Card */
+.discord-card {
+  flex: 0 1 360px;
+  min-width: 290px;
+  max-width: 390px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: var(--tile-bg);
+  border: 1px solid var(--tile-border);
+  text-decoration: none;
+  color: var(--ink);
+  transition:
+    background-color 0.32s var(--ease-spring),
+    border-color 0.32s var(--ease-spring),
+    transform 0.32s var(--ease-spring),
+    box-shadow 0.32s var(--ease-spring);
+}
+
+.discord-card:hover,
+.discord-card:focus-visible {
+  background: var(--tile-hover-bg);
+  border-color: var(--tile-hover-border);
+  transform: translateY(-5px);
+  box-shadow: var(--tile-hover-shadow);
+}
+
+.discord-avatar-wrap {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.discord-avatar-wrap > img:first-child {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--tile-border);
+}
+
+.discord-deco {
+  position: absolute;
+  inset: -6px;
+  width: 68px;
+  height: 68px;
+  pointer-events: none;
+}
+
+.discord-status {
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2.5px solid #F6DA72;
+}
+
+.status-online {
+  background: #23A55A;
+}
+
+.status-idle {
+  background: #F0B232;
+}
+
+.status-dnd {
+  background: #F23F43;
+}
+
+.status-offline {
+  background: #767B84;
+}
+
+.discord-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.discord-name {
+  font-family: "Bricolage Grotesque", "Be Vietnam Pro", sans-serif;
+  font-size: 1.06rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.discord-sub-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.discord-handle {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.discord-clan {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: rgba(24, 20, 9, 0.1);
+  border: 1px solid var(--tile-border);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.discord-clan img {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+.discord-activity {
+  margin-top: 2px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.discord-corner-icon {
+  color: var(--ink-soft);
+  opacity: 0.7;
+  flex-shrink: 0;
+  transition: opacity 0.22s ease, transform 0.3s var(--ease-spring);
+}
+
+.discord-card:hover .discord-corner-icon,
+.discord-card:focus-visible .discord-corner-icon {
+  opacity: 1;
   transform: scale(1.08);
 }
 
@@ -819,6 +986,12 @@ h3 {
 
 /* Responsive */
 @media (max-width: 860px) {
+  .discord-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
   .games-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

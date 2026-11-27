@@ -62,52 +62,109 @@
   </header>
 
   <main id="top" class="container main-shell">
-    <!-- Minimal Hero + Icon-only Dock -->
+    <!-- Minimal Hero + Icon-only Dock + Embedded Discord Card -->
     <section class="hero">
-      <h1 class="erist-title" aria-label="Erist">
-        <span id="erist-stage" aria-hidden="true">Erist</span>
-      </h1>
+      <div class="hero-main">
+        <h1 class="erist-title" aria-label="Erist">
+          <span id="erist-stage" aria-hidden="true">Erist</span>
+        </h1>
 
-      <div class="icon-dock" aria-label="Liên kết cá nhân">
-        <a
-          href="https://steamcommunity.com/profiles/76561198845357399/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="icon-tile"
-          aria-label="Steam"
-          title="Steam"
-        >
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
-            <path d="M12 2a10 10 0 0 0-9.95 9.06l5.35 2.21a2.84 2.84 0 0 1 1.6-.49l2.4-3.48v-.05a3.85 3.85 0 1 1 3.85 3.85h-.09l-3.42 2.44a2.86 2.86 0 0 1-5.67.55L2.46 14.6A10 10 0 1 0 12 2Zm-3.16 14.5-1.26-.52a2.14 2.14 0 1 0 1.98-2.97 2.1 2.1 0 0 0-.82.17l1.3.54a1.58 1.58 0 1 1-1.2 2.78Zm6.41-7.25a2.57 2.57 0 1 0 0 5.14 2.57 2.57 0 0 0 0-5.14Zm0 4.14a1.57 1.57 0 1 1 0-3.14 1.57 1.57 0 0 1 0 3.14Z"/>
-          </svg>
-        </a>
+        <div class="icon-dock" aria-label="Liên kết cá nhân">
+          <a
+            href="https://steamcommunity.com/profiles/76561198845357399/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="icon-tile"
+            aria-label="Steam"
+            title="Steam"
+          >
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2a10 10 0 0 0-9.95 9.06l5.35 2.21a2.84 2.84 0 0 1 1.6-.49l2.4-3.48v-.05a3.85 3.85 0 1 1 3.85 3.85h-.09l-3.42 2.44a2.86 2.86 0 0 1-5.67.55L2.46 14.6A10 10 0 1 0 12 2Zm-3.16 14.5-1.26-.52a2.14 2.14 0 1 0 1.98-2.97 2.1 2.1 0 0 0-.82.17l1.3.54a1.58 1.58 0 1 1-1.2 2.78Zm6.41-7.25a2.57 2.57 0 1 0 0 5.14 2.57 2.57 0 0 0 0-5.14Zm0 4.14a1.57 1.57 0 1 1 0-3.14 1.57 1.57 0 0 1 0 3.14Z"/>
+            </svg>
+          </a>
 
-        <a
-          href="https://www.youtube.com/@erist2689"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="icon-tile"
-          aria-label="YouTube"
-          title="YouTube"
-        >
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
-            <path d="M21.58 7.19a2.75 2.75 0 0 0-1.94-1.95C17.93 4.78 12 4.78 12 4.78s-5.93 0-7.64.46A2.75 2.75 0 0 0 2.42 7.2 28.7 28.7 0 0 0 2 12a28.7 28.7 0 0 0 .42 4.81 2.75 2.75 0 0 0 1.94 1.95c1.71.46 7.64.46 7.64.46s5.93 0 7.64-.46a2.75 2.75 0 0 0 1.94-1.95A28.7 28.7 0 0 0 22 12a28.7 28.7 0 0 0-.42-4.81ZM10 15.1V8.9L15.4 12 10 15.1Z"/>
-          </svg>
-        </a>
+          <a
+            href="https://www.youtube.com/@erist2689"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="icon-tile"
+            aria-label="YouTube"
+            title="YouTube"
+          >
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+              <path d="M21.58 7.19a2.75 2.75 0 0 0-1.94-1.95C17.93 4.78 12 4.78 12 4.78s-5.93 0-7.64.46A2.75 2.75 0 0 0 2.42 7.2 28.7 28.7 0 0 0 2 12a28.7 28.7 0 0 0 .42 4.81 2.75 2.75 0 0 0 1.94 1.95c1.71.46 7.64.46 7.64.46s5.93 0 7.64-.46a2.75 2.75 0 0 0 1.94-1.95A28.7 28.7 0 0 0 22 12a28.7 28.7 0 0 0-.42-4.81ZM10 15.1V8.9L15.4 12 10 15.1Z"/>
+            </svg>
+          </a>
 
-        <a
-          href="https://github.com/fatshitduck"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="icon-tile"
-          aria-label="GitHub"
-          title="GitHub"
-        >
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
-            <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54a3.06 3.06 0 0 0-1.28-1.69c-1.05-.72.08-.7.08-.7a2.42 2.42 0 0 1 1.76 1.19 2.45 2.45 0 0 0 3.35.96 2.45 2.45 0 0 1 .73-1.54c-2.55-.29-5.24-1.28-5.24-5.69a4.45 4.45 0 0 1 1.18-3.09 4.14 4.14 0 0 1 .11-3.05s.97-.31 3.17 1.18a10.95 10.95 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18a4.14 4.14 0 0 1 .11 3.05 4.45 4.45 0 0 1 1.18 3.09c0 4.42-2.7 5.39-5.26 5.68a2.74 2.74 0 0 1 .78 2.13v3.16c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/>
-          </svg>
-        </a>
+          <a
+            href="https://github.com/fatshitduck"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="icon-tile"
+            aria-label="GitHub"
+            title="GitHub"
+          >
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+              <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54a3.06 3.06 0 0 0-1.28-1.69c-1.05-.72.08-.7.08-.7a2.42 2.42 0 0 1 1.76 1.19 2.45 2.45 0 0 0 3.35.96 2.45 2.45 0 0 1 .73-1.54c-2.55-.29-5.24-1.28-5.24-5.69a4.45 4.45 0 0 1 1.18-3.09 4.14 4.14 0 0 1 .11-3.05s.97-.31 3.17 1.18a10.95 10.95 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18a4.14 4.14 0 0 1 .11 3.05 4.45 4.45 0 0 1 1.18 3.09c0 4.42-2.7 5.39-5.26 5.68a2.74 2.74 0 0 1 .78 2.13v3.16c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/>
+            </svg>
+          </a>
+
+          <a
+            href="https://discord.com/users/737671991288397915"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="icon-tile"
+            aria-label="Discord"
+            title="Discord"
+          >
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+              <path d="M20.32 4.37a19.8 19.8 0 0 0-4.89-1.52.07.07 0 0 0-.08.04c-.21.38-.45.87-.61 1.26a18.27 18.27 0 0 0-5.48 0 12.64 12.64 0 0 0-.62-1.26.08.08 0 0 0-.08-.04 19.74 19.74 0 0 0-4.89 1.52.07.07 0 0 0-.03.03C.53 9.04-.32 13.58.1 18.06a.08.08 0 0 0 .03.06 19.9 19.9 0 0 0 5.99 3.03.08.08 0 0 0 .08-.03c.46-.63.87-1.3 1.22-2a.08.08 0 0 0-.04-.11 13.1 13.1 0 0 1-1.87-.9.08.08 0 0 1-.01-.12c.13-.09.25-.19.37-.29a.07.07 0 0 1 .08-.01c3.93 1.79 8.18 1.79 12.06 0a.07.07 0 0 1 .08.01c.12.1.25.2.37.29a.08.08 0 0 1-.01.13 12.3 12.3 0 0 1-1.87.89.08.08 0 0 0-.04.11c.36.7.77 1.37 1.22 2a.08.08 0 0 0 .08.03 19.84 19.84 0 0 0 6-3.03.08.08 0 0 0 .03-.06c.5-5.18-.84-9.68-3.55-13.66a.06.06 0 0 0-.03-.03ZM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.96-2.42 2.16-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.96 2.42-2.16 2.42Zm7.97 0c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.96-2.42 2.16-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.95 2.42-2.16 2.42Z"/>
+            </svg>
+          </a>
+        </div>
       </div>
+
+      <a
+        href="https://discord.com/users/737671991288397915"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="discord-card"
+        aria-label="Hồ sơ Discord của Erist"
+      >
+        <div class="discord-avatar-wrap">
+          <img
+            id="discord-avatar"
+            src="assets/discord-avatar.png"
+            alt="Avatar Discord của Erist"
+            width="56"
+            height="56"
+          />
+          <img id="discord-deco" class="discord-deco" alt="" hidden />
+          <span
+            id="discord-status"
+            class="discord-status status-offline"
+            aria-label="Trạng thái Discord"
+          ></span>
+        </div>
+
+        <div class="discord-info">
+          <strong id="discord-name" class="discord-name">Erist</strong>
+          <div class="discord-sub-row">
+            <span id="discord-handle" class="discord-handle">.erist</span>
+            <span id="discord-clan" class="discord-clan" hidden>
+              <img id="discord-clan-badge" alt="" width="14" height="14" />
+              <span id="discord-clan-tag"></span>
+            </span>
+          </div>
+          <span id="discord-activity" class="discord-activity" hidden></span>
+        </div>
+
+        <span class="discord-corner-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M20.32 4.37a19.8 19.8 0 0 0-4.89-1.52.07.07 0 0 0-.08.04c-.21.38-.45.87-.61 1.26a18.27 18.27 0 0 0-5.48 0 12.64 12.64 0 0 0-.62-1.26.08.08 0 0 0-.08-.04 19.74 19.74 0 0 0-4.89 1.52.07.07 0 0 0-.03.03C.53 9.04-.32 13.58.1 18.06a.08.08 0 0 0 .03.06 19.9 19.9 0 0 0 5.99 3.03.08.08 0 0 0 .08-.03c.46-.63.87-1.3 1.22-2a.08.08 0 0 0-.04-.11 13.1 13.1 0 0 1-1.87-.9.08.08 0 0 1-.01-.12c.13-.09.25-.19.37-.29a.07.07 0 0 1 .08-.01c3.93 1.79 8.18 1.79 12.06 0a.07.07 0 0 1 .08.01c.12.1.25.2.37.29a.08.08 0 0 1-.01.13 12.3 12.3 0 0 1-1.87.89.08.08 0 0 0-.04.11c.36.7.77 1.37 1.22 2a.08.08 0 0 0 .08.03 19.84 19.84 0 0 0 6-3.03.08.08 0 0 0 .03-.06c.5-5.18-.84-9.68-3.55-13.66a.06.06 0 0 0-.03-.03ZM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.96-2.42 2.16-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.96 2.42-2.16 2.42Zm7.97 0c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.96-2.42 2.16-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.95 2.42-2.16 2.42Z"/>
+          </svg>
+        </span>
+      </a>
     </section>
 
     <!-- Live CS2 Stats Section -->
