@@ -3,6 +3,19 @@ if (yearEl) {
   yearEl.textContent = String(new Date().getFullYear());
 }
 
+// Smooth scroll from Top-Left Donate button to the bottom Donate QR section
+const donateScrollBtn = document.getElementById("donate-scroll-btn");
+if (donateScrollBtn) {
+  donateScrollBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+    });
+  });
+}
+
 // Kinetic Erist Title — cycles smoothly every 3 seconds across 6 display modes
 (function initKineticErist() {
   const stage = document.getElementById("erist-stage");
@@ -173,7 +186,7 @@ if (yearEl) {
   }, 3000);
 })();
 
-// Animated Water-Blowing Faded-Yellow Liquid WebGL Shader
+// Calmer Animated Water-Blowing Faded-Yellow Liquid WebGL Shader
 (function initLiquidBackground() {
   const canvas = document.getElementById("liquid-bg");
   if (!canvas) return;
@@ -236,12 +249,12 @@ if (yearEl) {
 
     float baseLiquidHeight(vec2 p, float t) {
       vec2 q = vec2(
-        fbm(p + vec2(0.0, 0.0) + t * 0.165),
-        fbm(p + vec2(5.2, 1.3) - t * 0.14)
+        fbm(p + vec2(0.0, 0.0) + t * 0.105),
+        fbm(p + vec2(5.2, 1.3) - t * 0.09)
       );
       vec2 r = vec2(
-        fbm(p + 2.4 * q + vec2(1.7, 9.2) + t * 0.115),
-        fbm(p + 2.4 * q + vec2(8.3, 2.8) - t * 0.125)
+        fbm(p + 2.4 * q + vec2(1.7, 9.2) + t * 0.075),
+        fbm(p + 2.4 * q + vec2(8.3, 2.8) - t * 0.08)
       );
       return fbm(p + 1.9 * r);
     }
@@ -267,11 +280,11 @@ if (yearEl) {
       for (int i = 0; i < 28; i++) {
         vec4 rp = u_ripples[i];
         float age = t - rp.z;
-        if (rp.w > 0.001 && age > 0.0 && age < 2.6) {
+        if (rp.w > 0.001 && age > 0.0 && age < 3.1) {
           vec2 dVec = p - rp.xy;
           float d = length(dVec);
-          float phase = d * 24.0 - age * 11.0;
-          float env = exp(-age * 1.95) * exp(-d * 4.4) * rp.w;
+          float phase = d * 24.0 - age * 8.2;
+          float env = exp(-age * 1.65) * exp(-d * 4.4) * rp.w;
           float wave = sin(phase) * env * 0.055;
           h += wave;
           if (d > 0.0005) {
