@@ -1,16 +1,21 @@
 # Erist — Personal Steam & Gear (`instaserist.ggff.net`)
 
-Trang giới thiệu cá nhân tối giản gắn trên Steam Profile của **Erist**, sử dụng nền **Yellow Liquid** chuyển động mượt mà bằng WebGL kết hợp ảnh tách nền thực tế của bộ gear và màn hình.
+Trang giới thiệu cá nhân tối giản gắn trên Steam Profile của **Erist**, sử dụng nền **Yellow Liquid** tương tác gợn sóng nước theo con trỏ chuột bằng WebGL, tiêu đề **Erist** biến hóa mỗi 3 giây và ảnh tách nền thực tế của bộ gear, màn hình cùng Potato PC.
 
 ## Nội dung chính
-- **Hero tối giản:** Tên **Erist**, nút mở Steam Profile (`76561198845357399`), kênh YouTube (`@erist2689`) và Steam Friend Code (`885091671`).
-- **Bộ lọc trong suốt:** Chuyển nhanh giữa `Tất cả`, `Gear`, `Màn hình`, `PC` và `Kết nối`.
-- **Gear & Màn hình tách nền thực tế:** Delux M500 Pro, EWEADN ZAP68 Ultra, AULA G7 Pro, KTC 24" 240Hz và ASUS 24" 144Hz.
-- **Potato PC:** Ảnh tách nền (`assets/potato-cutout.png`) hiển thị trực tiếp trên nền chất lỏng vàng.
+- **Tiêu đề động (3 giây/nhịp):** Luân chuyển mượt giữa hiệu ứng gõ chữ, đổi font liên tục, mã Morse (`· ·−· ·· ··· −`), giải mã ký tự, sóng chữ và nháy nhị phân.
+- **Liên kết tối giản chỉ icon:** Steam (`76561198845357399`) và YouTube (`@erist2689`).
+- **Gear & Màn hình tách nền thực tế:**
+  - Chuột: Delux M500 Pro
+  - Bàn phím: EWEADN ZAP68 Ultra
+  - Tai nghe: AULA G7 Pro
+  - Màn chính: KTC H24T7 / H25T7 (24 inch • 260Hz)
+  - Màn phụ: ASUS VG247Q1A (24 inch • 165Hz)
+- **Potato PC:** Ảnh tách nền (`assets/potato-cutout.png`) hiển thị cùng các ô đồng màu phủ lớp tối nhẹ khi di chuột vào.
 
 ## Cấu trúc thư mục
-- `index.html`: Cấu trúc trang và các mục hiển thị.
-- `style.css`: Tông mực ấm trên nền vàng nhạt trong suốt và bố cục responsive.
-- `script.js`: Shader WebGL nền chất lỏng vàng, bộ lọc tab và nút sao chép nhanh.
+- `index.html`: Cấu trúc trang tối giản.
+- `style.css`: Giao diện các ô đồng màu trong suốt, hiệu ứng hover nền tối nhẹ và nâng nổi.
+- `script.js`: Shader WebGL gợn sóng nước theo con trỏ chuột và bộ điều khiển hiệu ứng chữ `Erist`.
 - `assets/*.png`: Bộ ảnh sản phẩm và Potato PC đã tách nền.
 - `CNAME`: Tên miền tùy chỉnh `instaserist.ggff.net` cho GitHub Pages.
