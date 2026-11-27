@@ -6,13 +6,13 @@
   <title>Erist • Steam &amp; Gear</title>
   <meta
     name="description"
-    content="Erist — Steam Profile, YouTube @erist2689, GitHub, gaming gear và dual-monitor setup."
+    content="Erist — Steam Profile, CS2 Live Stats, YouTube @erist2689, GitHub, gaming gear và dual-monitor setup."
   />
   <meta name="theme-color" content="#FEF1AF" />
   <link
     rel="icon"
     type="image/svg+xml"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23FEF1AF'/%3E%3Cpath d='M16 5L27 25H5L16 5Z' fill='%23181409'/%3E%3C/svg%3E"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M5.5 26.5 L25.5 4.5 L24.2 24.8 Q24 26.8 21.8 26.8 L6.6 26.8 Q4.6 26.8 5.5 26.5 Z' fill='%23F6D76B' stroke='%23181409' stroke-width='2.6' stroke-linejoin='round'/%3E%3C/svg%3E"
   />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -35,12 +35,12 @@
           <line x1="10" y1="2" x2="10" y2="4" />
           <line x1="14" y1="2" x2="14" y2="4" />
         </svg>
-        <span>Buy me some caffeine</span>
+        <span>Donate me</span>
       </a>
 
       <a href="#top" class="brand" aria-label="Erist trang chủ">
-        <svg class="brand-mark" viewBox="0 0 28 28" width="22" height="22" aria-hidden="true">
-          <path d="M14 3L25.5 23.5H2.5L14 3Z" fill="currentColor" />
+        <svg class="brand-mark" viewBox="0 0 32 32" width="24" height="24" aria-hidden="true">
+          <path d="M5.5 26.5 L25.5 4.5 L24.2 24.8 Q24 26.8 21.8 26.8 L6.6 26.8 Q4.6 26.8 5.5 26.5 Z" fill="#F6D76B" stroke="#181409" stroke-width="2.6" stroke-linejoin="round" />
         </svg>
         <span class="brand-name">ERIST</span>
       </a>
@@ -94,6 +94,84 @@
           </svg>
         </a>
       </div>
+    </section>
+
+    <!-- Live CS2 Stats Section -->
+    <section class="showcase-section" aria-labelledby="heading-cs2">
+      <h2 id="heading-cs2">CS2 Stats</h2>
+
+      <article class="cs2-tile" tabindex="0">
+        <div class="cs2-ranks">
+          <div class="cs2-rank-block">
+            <span class="cs2-label">Premier</span>
+            <strong class="cs2-rank-val">
+              <span class="premier-dot" aria-hidden="true"></span>
+              <span id="cs2-premier">21,187</span>
+            </strong>
+            <span class="cs2-sub">CS Rating</span>
+          </div>
+
+          <div class="cs2-rank-block">
+            <span class="cs2-label">FACEIT</span>
+            <strong class="cs2-rank-val" id="cs2-faceit-lvl">Level 9</strong>
+            <span class="cs2-sub" id="cs2-faceit-elo">1,728 ELO</span>
+          </div>
+
+          <div class="cs2-rank-block">
+            <span class="cs2-label">Aim</span>
+            <strong class="cs2-rank-val" id="cs2-aim">91.5</strong>
+            <span class="cs2-sub" id="cs2-leetify">+2.24 Rating</span>
+          </div>
+        </div>
+
+        <div class="cs2-metrics">
+          <div class="cs2-metric">
+            <span class="cs2-label">Win Rate</span>
+            <strong class="cs2-metric-val" id="cs2-winrate">55.2%</strong>
+            <span class="cs2-sub" id="cs2-matches">1,686 matches</span>
+          </div>
+
+          <div class="cs2-metric">
+            <span class="cs2-label">Counter-Strafing</span>
+            <strong class="cs2-metric-val" id="cs2-cs">85.1%</strong>
+            <span class="cs2-sub">Good shots</span>
+          </div>
+
+          <div class="cs2-metric">
+            <span class="cs2-label">Headshot Acc</span>
+            <strong class="cs2-metric-val" id="cs2-hs">23.5%</strong>
+            <span class="cs2-sub">Precision</span>
+          </div>
+
+          <div class="cs2-metric">
+            <span class="cs2-label">Reaction / Preaim</span>
+            <strong class="cs2-metric-val" id="cs2-ttd">536 ms</strong>
+            <span class="cs2-sub" id="cs2-preaim">7.2° preaim</span>
+          </div>
+        </div>
+
+        <div class="cs2-foot">
+          <span id="cs2-source" class="cs2-sub">Leetify • Live Stats</span>
+          <div class="cs2-links">
+            <a
+              href="https://leetify.com/app/profile/76561198845357399"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="cs2-pill-link"
+            >
+              Leetify
+            </a>
+            <a
+              href="https://csstats.gg/player/76561198845357399"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="cs2-pill-link"
+            >
+              CSStats
+            </a>
+          </div>
+        </div>
+      </article>
     </section>
 
     <!-- Gear Section -->
@@ -245,6 +323,35 @@
           </div>
         </dl>
       </article>
+    </section>
+
+    <!-- Doritos Maker Section -->
+    <section class="showcase-section" aria-labelledby="heading-doritos">
+      <h2 id="heading-doritos">Doritos Maker</h2>
+
+      <a
+        href="https://tamanidamani.itch.io/nijikas-ahoge"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="doritos-tile"
+      >
+        <div class="doritos-left">
+          <svg class="doritos-ahoge-icon" viewBox="0 0 32 32" width="44" height="44" aria-hidden="true">
+            <path d="M5.5 26.5 L25.5 4.5 L24.2 24.8 Q24 26.8 21.8 26.8 L6.6 26.8 Q4.6 26.8 5.5 26.5 Z" fill="#F6D76B" stroke="#181409" stroke-width="2.4" stroke-linejoin="round" />
+          </svg>
+          <div class="doritos-info">
+            <h3>Nijika's Ahoge</h3>
+            <p class="doritos-desc">Mini-game kéo dài chỏm tóc Dorito vô tận • tamanidamani.itch.io</p>
+          </div>
+        </div>
+
+        <span class="doritos-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7" />
+            <path d="M8 7H17V16" />
+          </svg>
+        </span>
+      </a>
     </section>
 
     <!-- Bottom Buy me some caffeine PayPal QR Section -->

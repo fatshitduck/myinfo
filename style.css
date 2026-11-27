@@ -131,7 +131,7 @@ h3 {
   font-weight: 700;
 }
 
-/* Header: Donate Top-Left, ERIST Right */
+/* Header: Donate me Top-Left, ERIST Right */
 .site-header {
   background: transparent;
 }
@@ -156,6 +156,7 @@ h3 {
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
+  white-space: nowrap;
   transition:
     background-color 0.32s var(--ease-spring),
     border-color 0.32s var(--ease-spring),
@@ -177,6 +178,10 @@ h3 {
   gap: 10px;
   text-decoration: none;
   color: var(--ink);
+}
+
+.brand-mark {
+  flex-shrink: 0;
 }
 
 .brand-name {
@@ -360,6 +365,135 @@ h3 {
   padding: 40px 0 8px;
 }
 
+/* Live CS2 Stats Tile */
+.cs2-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 28px 32px;
+  border-radius: 16px;
+  background: var(--tile-bg);
+  border: 1px solid var(--tile-border);
+  transition:
+    background-color 0.32s var(--ease-spring),
+    border-color 0.32s var(--ease-spring),
+    transform 0.32s var(--ease-spring),
+    box-shadow 0.32s var(--ease-spring);
+}
+
+.cs2-tile:hover,
+.cs2-tile:focus-visible {
+  background: var(--tile-hover-bg);
+  border-color: var(--tile-hover-border);
+  transform: translateY(-5px);
+  box-shadow: var(--tile-hover-shadow);
+}
+
+.cs2-ranks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 24px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--tile-border);
+}
+
+.cs2-rank-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cs2-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.cs2-rank-val {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.55rem, 2.8vw, 2.05rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.premier-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #EC4899;
+  box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2);
+  flex-shrink: 0;
+}
+
+.cs2-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px 24px;
+}
+
+.cs2-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cs2-metric-val {
+  font-family: "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.cs2-sub {
+  font-family: "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.cs2-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--tile-border);
+}
+
+.cs2-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cs2-pill-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 13px;
+  border-radius: 999px;
+  background: rgba(24, 20, 9, 0.06);
+  border: 1px solid var(--tile-border);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--ink);
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s var(--ease-spring);
+}
+
+.cs2-pill-link:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg-ivory);
+  transform: translateY(-2px);
+}
+
 /* Gear & Monitor Grids — Uniform Tiles */
 .gear-grid {
   display: grid;
@@ -518,7 +652,75 @@ h3 {
   line-height: 1.4;
 }
 
-/* Bottom Donate Tile */
+/* Doritos Maker Tile */
+.doritos-tile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 28px;
+  border-radius: 16px;
+  background: var(--tile-bg);
+  border: 1px solid var(--tile-border);
+  text-decoration: none;
+  color: var(--ink);
+  transition:
+    background-color 0.32s var(--ease-spring),
+    border-color 0.32s var(--ease-spring),
+    transform 0.32s var(--ease-spring),
+    box-shadow 0.32s var(--ease-spring);
+}
+
+.doritos-tile:hover,
+.doritos-tile:focus-visible {
+  background: var(--tile-hover-bg);
+  border-color: var(--tile-hover-border);
+  transform: translateY(-5px);
+  box-shadow: var(--tile-hover-shadow);
+}
+
+.doritos-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+}
+
+.doritos-ahoge-icon {
+  flex-shrink: 0;
+  transition: transform 0.36s var(--ease-spring);
+}
+
+.doritos-tile:hover .doritos-ahoge-icon,
+.doritos-tile:focus-visible .doritos-ahoge-icon {
+  transform: translateY(-4px) rotate(6deg) scale(1.08);
+}
+
+.doritos-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.doritos-desc {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  word-break: break-word;
+}
+
+.doritos-arrow {
+  flex-shrink: 0;
+  color: var(--ink);
+  transition: transform 0.3s var(--ease-spring);
+}
+
+.doritos-tile:hover .doritos-arrow,
+.doritos-tile:focus-visible .doritos-arrow {
+  transform: translate(4px, -4px);
+}
+
+/* Bottom Buy me some caffeine Tile */
 .donate-tile {
   display: flex;
   flex-direction: column;
@@ -611,8 +813,17 @@ h3 {
 @media (max-width: 860px) {
   .gear-grid,
   .monitors-grid,
-  .potato-tile {
+  .potato-tile,
+  .cs2-ranks {
     grid-template-columns: 1fr;
+  }
+
+  .cs2-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cs2-tile {
+    padding: 24px 20px;
   }
 
   .cutout-stage {
@@ -653,10 +864,8 @@ h3 {
   }
 
   .donate-nav-btn {
-    font-size: 0.8rem;
-    padding: 8px 12px;
-    gap: 7px;
-    white-space: nowrap;
+    font-size: 0.84rem;
+    padding: 8px 13px;
   }
 
   .brand-name {
@@ -678,6 +887,11 @@ h3 {
 
   .showcase-section {
     padding: 32px 0 4px;
+  }
+
+  .doritos-tile {
+    padding: 20px;
+    gap: 14px;
   }
 
   .donate-link {

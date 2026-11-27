@@ -3,7 +3,7 @@ if (yearEl) {
   yearEl.textContent = String(new Date().getFullYear());
 }
 
-// Smooth scroll from Top-Left Donate button to the bottom Donate QR section
+// Smooth scroll from Top-Left Donate me button to the bottom Buy me some caffeine section
 const donateScrollBtn = document.getElementById("donate-scroll-btn");
 if (donateScrollBtn) {
   donateScrollBtn.addEventListener("click", (e) => {
@@ -15,6 +15,67 @@ if (donateScrollBtn) {
     });
   });
 }
+
+// Live CS2 Stats via Public Leetify Profile API (Steam64: 76561198845357399)
+(function initCs2Stats() {
+  const endpoint = "https://api-public.cs-prod.leetify.com/v3/profile?steam64_id=76561198845357399";
+
+  function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el && typeof value === "string") {
+      el.textContent = value;
+    }
+  }
+
+  fetch(endpoint)
+    .then((res) => (res.ok ? res.json() : null))
+    .then((data) => {
+      if (!data || typeof data !== "object") return;
+
+      const ranks = data.ranks || {};
+      const rating = data.rating || {};
+      const stats = data.stats || {};
+
+      if (typeof ranks.premier === "number") {
+        setText("cs2-premier", ranks.premier.toLocaleString("en-US"));
+      }
+      if (typeof ranks.faceit === "number") {
+        setText("cs2-faceit-lvl", `Level ${ranks.faceit}`);
+      }
+      if (typeof ranks.faceit_elo === "number") {
+        setText("cs2-faceit-elo", `${ranks.faceit_elo.toLocaleString("en-US")} ELO`);
+      }
+      if (typeof rating.aim === "number") {
+        setText("cs2-aim", rating.aim.toFixed(1));
+      }
+      if (typeof ranks.leetify === "number") {
+        const sign = ranks.leetify >= 0 ? "+" : "";
+        setText("cs2-leetify", `${sign}${ranks.leetify.toFixed(2)} Rating`);
+      }
+      if (typeof data.winrate === "number") {
+        const pct = data.winrate <= 1 ? data.winrate * 100 : data.winrate;
+        setText("cs2-winrate", `${pct.toFixed(1)}%`);
+      }
+      if (typeof data.total_matches === "number") {
+        setText("cs2-matches", `${data.total_matches.toLocaleString("en-US")} matches`);
+      }
+      if (typeof stats.counter_strafing_good_shots_ratio === "number") {
+        setText("cs2-cs", `${stats.counter_strafing_good_shots_ratio.toFixed(1)}%`);
+      }
+      if (typeof stats.accuracy_head === "number") {
+        setText("cs2-hs", `${stats.accuracy_head.toFixed(1)}%`);
+      }
+      if (typeof stats.reaction_time_ms === "number") {
+        setText("cs2-ttd", `${Math.round(stats.reaction_time_ms)} ms`);
+      }
+      if (typeof stats.preaim === "number") {
+        setText("cs2-preaim", `${stats.preaim.toFixed(1)}° preaim`);
+      }
+    })
+    .catch(() => {
+      // Keep verified snapshot values if live request is unavailable
+    });
+})();
 
 // Kinetic Erist Title — cycles smoothly every 3 seconds across 6 display modes
 (function initKineticErist() {
