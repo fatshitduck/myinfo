@@ -3,141 +3,429 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hồ sơ cá nhân | Steam Profile</title>
-  <meta name="description" content="Trang giới thiệu cá nhân, game yêu thích và thông tin liên hệ." />
+  <title>Erist • Steam &amp; Gear Dossier</title>
+  <meta
+    name="description"
+    content="Trang giới thiệu cá nhân của Erist — Steam Profile, kênh YouTube @erist2689, bộ gear thi đấu, Potato PC và cảm hứng Ijichi Nijika (Bocchi the Rock!)."
+  />
+  <meta name="theme-color" content="#0E0D0A" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230E0D0A'/%3E%3Cpath d='M16 5L27 25H5L16 5Z' fill='%23FFD230'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="bg-glow" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="brand" aria-label="Erist trang chủ">
+        <svg class="brand-mark" viewBox="0 0 28 28" width="24" height="24" aria-hidden="true">
+          <path d="M14 3L25.5 23.5H2.5L14 3Z" fill="currentColor" />
+        </svg>
+        <span class="brand-name">ERIST</span>
+      </a>
 
-  <main class="container">
-    <!-- Hero / Profile Header -->
-    <section class="card hero-card">
-      <div class="avatar-wrap">
-        <img
-          src="https://avatars.fastly.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg"
-          alt="Avatar cá nhân"
-          class="avatar"
-        />
-        <span class="status-dot" title="Online"></span>
-      </div>
-
-      <div class="hero-info">
-        <div class="name-row">
-          <h1>Tên Của Bạn</h1>
-          <span class="badge">Level 42 • Gamer</span>
-        </div>
-        <p class="tagline">
-          Chào mừng đến với góc nhỏ của mình. Thích chơi game co-op, FPS và khám phá thế giới mở.
-        </p>
-
-        <div class="meta-row">
-          <span>📍 Việt Nam</span>
-          <span>🕒 UTC+7</span>
-          <span>🎮 Steam Friend Code: <button class="copy-chip" data-copy="123456789" title="Nhấn để sao chép">123456789 📋</button></span>
-        </div>
-
-        <div class="actions">
-          <a href="https://steamcommunity.com/id/your-id" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-            Mở Steam Profile
-          </a>
-          <button class="btn btn-secondary copy-chip" data-copy="your_discord_tag">
-            Copy Discord
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- About & Setup Grid -->
-    <div class="grid-2">
-      <section class="card">
-        <h2>Giới thiệu</h2>
-        <p class="muted">
-          Mình thường online vào buổi tối và cuối tuần. Nếu bạn muốn tìm đồng đội bắn CS2, leo rank hoặc chơi các game sinh tồn/co-op vui vẻ thì cứ kết bạn Steam hoặc nhắn qua Discord nhé!
-        </p>
-        <ul class="tag-list">
-          <li>FPS / Tactical</li>
-          <li>Co-op</li>
-          <li>RPG</li>
-          <li>Chill &amp; Talk</li>
-        </ul>
-      </section>
-
-      <section class="card">
-        <h2>Cấu hình PC (Setup)</h2>
-        <ul class="spec-list">
-          <li><span>CPU</span><strong>AMD Ryzen 5 / Intel Core i5</strong></li>
-          <li><span>GPU</span><strong>NVIDIA RTX 4060</strong></li>
-          <li><span>RAM</span><strong>32GB DDR4 / DDR5</strong></li>
-          <li><span>Gear</span><strong>Chuột không dây • Tai nghe Gaming</strong></li>
-        </ul>
-      </section>
+      <nav class="site-nav" aria-label="Điều hướng chính">
+        <a href="#nijika">Nijika</a>
+        <a href="#gear">Gear</a>
+        <a href="#pc">PC</a>
+        <a href="#links">Liên kết</a>
+        <a
+          href="https://steamcommunity.com/profiles/76561198845357399/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="nav-steam"
+        >
+          Steam
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 17L17 7" />
+            <path d="M8 7H17V16" />
+          </svg>
+        </a>
+      </nav>
     </div>
+  </header>
 
-    <!-- Favorite Games -->
-    <section class="card">
-      <div class="section-head">
-        <h2>Game đang chơi &amp; Yêu thích</h2>
-        <span class="muted small">Cập nhật thủ công</span>
-      </div>
+  <main id="top">
+    <!-- Hero Stage -->
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1>Erist</h1>
 
-      <div class="games-grid">
-        <article class="game-item">
-          <div class="game-top">
-            <h3>Counter-Strike 2</h3>
-            <span class="hours">1,200+ hrs</span>
+          <div class="identity-row">
+            <img
+              src="https://yt3.googleusercontent.com/_YPshXxYRt7vCpFofaJFML2_wH2qMGB7Z7pekdh07-43Su3KJriX2tBWv6TPx-hbGyf84xVZpw=s900-c-k-c0x00ffffff-no-rj"
+              onerror="this.onerror=null;this.src='assets/nijika-stage.png';"
+              alt="Avatar của Erist"
+              class="mini-avatar"
+              width="44"
+              height="44"
+            />
+            <div class="identity-meta">
+              <span class="status-pill">
+                <span class="status-dot" aria-hidden="true"></span>
+                Gamer • Kessoku Yellow
+              </span>
+              <span class="domain-note">instaserist.ggff.net</span>
+            </div>
           </div>
-          <p class="muted small">Rifler / Premier cùng bạn bè</p>
-        </article>
 
-        <article class="game-item">
-          <div class="game-top">
-            <h3>Elden Ring</h3>
-            <span class="hours">180 hrs</span>
-          </div>
-          <p class="muted small">100% Achievements • DLC Completed</p>
-        </article>
+          <p class="hero-lead">
+            Góc hồ sơ cá nhân gắn trên Steam Profile. Yêu thích nhịp trống rực rỡ của
+            <strong>Ijichi Nijika</strong> từ <em>Bocchi the Rock!</em>, chơi game trên cặp màn hình
+            tần số quét cao và chạy bằng một chiếc Potato PC hết sức khiêm tốn.
+          </p>
 
-        <article class="game-item">
-          <div class="game-top">
-            <h3>Left 4 Dead 2 / Co-op</h3>
-            <span class="hours">340 hrs</span>
+          <div class="cta-row">
+            <a
+              href="https://steamcommunity.com/profiles/76561198845357399/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                <path d="M12 2a10 10 0 0 0-9.95 9.06l5.35 2.21a2.84 2.84 0 0 1 1.6-.49l2.4-3.48v-.05a3.85 3.85 0 1 1 3.85 3.85h-.09l-3.42 2.44a2.86 2.86 0 0 1-5.67.55L2.46 14.6A10 10 0 1 0 12 2Zm-3.16 14.5-1.26-.52a2.14 2.14 0 1 0 1.98-2.97 2.1 2.1 0 0 0-.82.17l1.3.54a1.58 1.58 0 1 1-1.2 2.78Zm6.41-7.25a2.57 2.57 0 1 0 0 5.14 2.57 2.57 0 0 0 0-5.14Zm0 4.14a1.57 1.57 0 1 1 0-3.14 1.57 1.57 0 0 1 0 3.14Z"/>
+              </svg>
+              <span>Steam Profile</span>
+            </a>
+
+            <a
+              href="https://www.youtube.com/@erist2689"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-secondary"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                <path d="M21.58 7.19a2.75 2.75 0 0 0-1.94-1.95C17.93 4.78 12 4.78 12 4.78s-5.93 0-7.64.46A2.75 2.75 0 0 0 2.42 7.2 28.7 28.7 0 0 0 2 12a28.7 28.7 0 0 0 .42 4.81 2.75 2.75 0 0 0 1.94 1.95c1.71.46 7.64.46 7.64.46s5.93 0 7.64-.46a2.75 2.75 0 0 0 1.94-1.95A28.7 28.7 0 0 0 22 12a28.7 28.7 0 0 0-.42-4.81ZM10 15.1V8.9L15.4 12 10 15.1Z"/>
+              </svg>
+              <span>YouTube @erist2689</span>
+            </a>
           </div>
-          <p class="muted small">Custom maps &amp; giải trí cuối tuần</p>
-        </article>
+
+          <div class="friend-code-bar" aria-label="Mã kết bạn Steam">
+            <div class="fc-label">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <line x1="19" y1="8" x2="19" y2="14" />
+                <line x1="22" y1="11" x2="16" y2="11" />
+              </svg>
+              <span>Friend Code</span>
+            </div>
+
+            <code class="fc-value">885091671</code>
+
+            <div class="fc-actions">
+              <button
+                type="button"
+                class="fc-btn"
+                data-copy="885091671"
+                aria-label="Sao chép Steam Friend Code 885091671"
+              >
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                <span>Copy</span>
+              </button>
+              <a
+                href="steam://friends/add/76561198845357399"
+                class="fc-btn fc-add"
+                title="Mở ứng dụng Steam để kết bạn"
+              >
+                Kết bạn nhanh
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-stage-visual">
+          <div class="stage-frame-wrap">
+            <div class="stage-yellow-plate" aria-hidden="true"></div>
+            <figure class="stage-figure">
+              <img
+                src="assets/nijika-stage.png"
+                alt="Minh họa lấy cảm hứng từ Ijichi Nijika (Bocchi the Rock!) dưới ánh đèn vàng sân khấu"
+                width="896"
+                height="1200"
+              />
+            </figure>
+
+            <button
+              type="button"
+              id="dorito-btn"
+              class="dorito-beat-btn"
+              aria-label="Gõ nhịp Dorito của Nijika"
+            >
+              <span class="dorito-pulse" aria-hidden="true"></span>
+              <svg class="dorito-svg" viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
+                <path d="M16 3L29 27H3L16 3Z" fill="currentColor" />
+              </svg>
+              <span class="dorito-text">
+                <strong>Dorito Beat</strong>
+                <span id="beat-count" class="beat-counter">0 hits</span>
+              </span>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Links -->
-    <section class="card">
-      <h2>Liên kết khác</h2>
-      <div class="links-grid">
-        <a href="https://steamcommunity.com/id/your-id" target="_blank" rel="noopener noreferrer" class="link-tile">
-          <span class="link-title">Steam</span>
-          <span class="link-sub">steamcommunity.com/id/your-id</span>
-        </a>
-        <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="link-tile">
-          <span class="link-title">Discord</span>
-          <span class="link-sub">@your_discord_tag</span>
-        </a>
-        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="link-tile">
-          <span class="link-title">YouTube</span>
-          <span class="link-sub">Highlights &amp; Clips</span>
-        </a>
-        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="link-tile">
-          <span class="link-title">GitHub</span>
-          <span class="link-sub">@your_github</span>
-        </a>
+    <!-- Committed Yellow Tribute Band -->
+    <section id="nijika" class="yellow-band">
+      <div class="container yellow-band-inner">
+        <div class="yellow-band-main">
+          <h2>Ijichi Nijika • Bocchi the Rock!</h2>
+          <p class="band-quote">
+            “Dù sân khấu lớn hay nhỏ, tay trống vẫn là người giữ nhịp cho cả ban nhạc.”
+          </p>
+          <p class="band-desc">
+            <strong>Ijichi Nijika (伊地知 虹夏)</strong> — tay trống và trưởng nhóm của
+            <strong>Kessoku Band</strong> tại live house <strong>STARRY</strong>. Toàn bộ bảng màu
+            vàng rực rỡ kết hợp điểm nhấn đỏ thẫm trên trang này lấy cảm hứng từ mái tóc vàng,
+            chiếc nơ buộc bên và lọn tóc tam giác “Dorito” trứ danh của Nijika.
+          </p>
+        </div>
+
+        <aside class="yellow-band-facts" aria-label="Thông tin nhân vật yêu thích">
+          <dl class="fact-rows">
+            <div class="fact-row">
+              <dt>Nhân vật</dt>
+              <dd>Ijichi Nijika</dd>
+            </div>
+            <div class="fact-row">
+              <dt>Series</dt>
+              <dd>Bocchi the Rock!</dd>
+            </div>
+            <div class="fact-row">
+              <dt>Ban nhạc</dt>
+              <dd>Kessoku Band (Drums)</dd>
+            </div>
+            <div class="fact-row">
+              <dt>Biểu tượng</dt>
+              <dd>Ahoge Dorito &amp; Ribbon</dd>
+            </div>
+          </dl>
+        </aside>
       </div>
     </section>
 
-    <footer class="footer">
-      <p>© <span id="year"></span> Tên Của Bạn • Hosted for free</p>
-    </footer>
+    <!-- Gear & Dual-Monitor Setup Ledger -->
+    <section id="gear" class="section-block">
+      <div class="container">
+        <div class="section-header">
+          <h2>Gear &amp; Màn hình</h2>
+          <p class="section-sub">
+            Bộ thiết bị ngoại vi không dây siêu nhẹ và cặp màn hình tần số quét cao.
+          </p>
+        </div>
+
+        <div class="ledger-layout">
+          <div class="ledger-group">
+            <h3 class="ledger-group-title">Gaming Gear</h3>
+            <ul class="ledger-list">
+              <li class="ledger-row">
+                <div class="ledger-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="6" y="3" width="12" height="18" rx="6" />
+                    <path d="M12 7v4" />
+                  </svg>
+                </div>
+                <div class="ledger-name">
+                  <span class="ledger-role">Chuột</span>
+                  <strong>Delux M500 Pro</strong>
+                </div>
+                <div class="ledger-spec">PAW3395 • 58.5g Ultralight • Tri-Mode Wireless</div>
+              </li>
+
+              <li class="ledger-row">
+                <div class="ledger-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="6" width="20" height="12" rx="2" />
+                    <path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10" />
+                  </svg>
+                </div>
+                <div class="ledger-name">
+                  <span class="ledger-role">Bàn phím</span>
+                  <strong>EWEADN ZAP68 Ultra</strong>
+                </div>
+                <div class="ledger-spec">68% Magnetic Switch • 0.01mm Rapid Trigger • 8000Hz</div>
+              </li>
+
+              <li class="ledger-row">
+                <div class="ledger-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z" />
+                    <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z" />
+                  </svg>
+                </div>
+                <div class="ledger-name">
+                  <span class="ledger-role">Tai nghe</span>
+                  <strong>AULA G7 Pro</strong>
+                </div>
+                <div class="ledger-spec">Tri-Mode 2.4GHz / BT 5.3 • 7.1 Surround • AI ENC Mic</div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="ledger-group">
+            <h3 class="ledger-group-title">Màn hình</h3>
+            <ul class="ledger-list">
+              <li class="ledger-row">
+                <div class="ledger-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="13" rx="2" />
+                    <path d="M8 21h8M12 17v4" />
+                  </svg>
+                </div>
+                <div class="ledger-name">
+                  <span class="ledger-role">Màn hình chính</span>
+                  <strong>KTC 24" 240Hz</strong>
+                </div>
+                <div class="ledger-spec">Main Display • 24 inch • 240Hz</div>
+              </li>
+
+              <li class="ledger-row">
+                <div class="ledger-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="5" width="18" height="12" rx="2" />
+                    <path d="M9 21h6M12 17v4" />
+                  </svg>
+                </div>
+                <div class="ledger-name">
+                  <span class="ledger-role">Màn hình phụ</span>
+                  <strong>ASUS 24" 144Hz</strong>
+                </div>
+                <div class="ledger-spec">2nd Display • 24 inch • 144Hz</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Potato PC Showcase -->
+    <section id="pc" class="section-block section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Cấu hình PC</h2>
+          <p class="section-sub">
+            Phần cứng tối giản tuyệt đối nhưng vẫn gánh đều cặp màn hình tần số quét cao.
+          </p>
+        </div>
+
+        <div class="potato-split">
+          <figure class="potato-figure">
+            <img
+              src="assets/potato-pc.png"
+              alt="Potato PC của Erist được gắn quạt tản nhiệt và dây rút vàng"
+              width="1376"
+              height="768"
+            />
+          </figure>
+
+          <div class="potato-specs">
+            <dl class="spec-ledger">
+              <div class="spec-row">
+                <dt>Vi xử lý &amp; Đồ họa</dt>
+                <dd>100% Khoai Tây Nguyên Bản (Potato Edition)</dd>
+              </div>
+              <div class="spec-row">
+                <dt>Tản nhiệt</dt>
+                <dd>Tự nhiên bằng tinh bột • Dây rút vàng Kessoku</dd>
+              </div>
+              <div class="spec-row">
+                <dt>Xuất hình</dt>
+                <dd>Gánh còng lưng cặp màn 240Hz + 144Hz</dd>
+              </div>
+              <div class="spec-row">
+                <dt>Trạng thái</dt>
+                <dd>Vẫn chiến tốt mọi kèo</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Direct Channels -->
+    <section id="links" class="section-block">
+      <div class="container">
+        <div class="section-header">
+          <h2>Kết nối</h2>
+          <p class="section-sub">
+            Tìm mình trực tiếp trên Steam hoặc xem các video trên kênh YouTube.
+          </p>
+        </div>
+
+        <div class="channels-list">
+          <a
+            href="https://steamcommunity.com/profiles/76561198845357399/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="channel-row"
+          >
+            <div class="channel-left">
+              <span class="channel-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                  <path d="M12 2a10 10 0 0 0-9.95 9.06l5.35 2.21a2.84 2.84 0 0 1 1.6-.49l2.4-3.48v-.05a3.85 3.85 0 1 1 3.85 3.85h-.09l-3.42 2.44a2.86 2.86 0 0 1-5.67.55L2.46 14.6A10 10 0 1 0 12 2Zm-3.16 14.5-1.26-.52a2.14 2.14 0 1 0 1.98-2.97 2.1 2.1 0 0 0-.82.17l1.3.54a1.58 1.58 0 1 1-1.2 2.78Zm6.41-7.25a2.57 2.57 0 1 0 0 5.14 2.57 2.57 0 0 0 0-5.14Zm0 4.14a1.57 1.57 0 1 1 0-3.14 1.57 1.57 0 0 1 0 3.14Z"/>
+                </svg>
+              </span>
+              <div class="channel-meta">
+                <strong>Steam</strong>
+                <span>steamcommunity.com/profiles/76561198845357399 • Friend Code: 885091671</span>
+              </div>
+            </div>
+            <span class="channel-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+
+          <a
+            href="https://www.youtube.com/@erist2689"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="channel-row"
+          >
+            <div class="channel-left">
+              <span class="channel-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                  <path d="M21.58 7.19a2.75 2.75 0 0 0-1.94-1.95C17.93 4.78 12 4.78 12 4.78s-5.93 0-7.64.46A2.75 2.75 0 0 0 2.42 7.2 28.7 28.7 0 0 0 2 12a28.7 28.7 0 0 0 .42 4.81 2.75 2.75 0 0 0 1.94 1.95c1.71.46 7.64.46 7.64.46s5.93 0 7.64-.46a2.75 2.75 0 0 0 1.94-1.95A28.7 28.7 0 0 0 22 12a28.7 28.7 0 0 0-.42-4.81ZM10 15.1V8.9L15.4 12 10 15.1Z"/>
+                </svg>
+              </span>
+              <div class="channel-meta">
+                <strong>YouTube</strong>
+                <span>youtube.com/@erist2689 • 581 subscribers • 31 videos</span>
+              </div>
+            </div>
+            <span class="channel-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Erist • instaserist.ggff.net</p>
+      <button type="button" class="copy-url-btn" data-copy="https://instaserist.ggff.net">
+        Sao chép link trang
+      </button>
+    </div>
+  </footer>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="script.js"></script>
