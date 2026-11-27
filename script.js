@@ -1092,3 +1092,339 @@ if (donateScrollBtn) {
 
   requestAnimationFrame(render);
 })();
+
+// Always-Visible Bottom-Right Background Music Timeline (YouTube IFrame Player API)
+(function initBackgroundMusic() {
+  const VIDEO_ID = "rYWLIJB214Q";
+  const DEFAULT_DURATION = 315;
+  const DEFAULT_VOL = 35;
+  const VOL_KEY = "erist_bgm_vol";
+
+  const playerEl = document.getElementById("bgm-player");
+  const mountEl = document.getElementById("bgm-yt-mount");
+  const toggleBtn = document.getElementById("bgm-toggle");
+  const icoPlay = document.getElementById("bgm-ico-play");
+  const icoPause = document.getElementById("bgm-ico-pause");
+  const muteBtn = document.getElementById("bgm-mute");
+  const icoVol = document.getElementById("bgm-ico-vol");
+  const icoMuted = document.getElementById("bgm-ico-muted");
+  const volEl = document.getElementById("bgm-vol");
+  const seekEl = document.getElementById("bgm-seek");
+  const curEl = document.getElementById("bgm-cur");
+  const durEl = document.getElementById("bgm-dur");
+  const noteEl = document.getElementById("bgm-note");
+
+  if (!playerEl || !mountEl || !toggleBtn || !muteBtn || !volEl || !seekEl || !curEl || !durEl) {
+    return;
+  }
+
+  let player = null;
+  let playerReady = false;
+  let isPlaying = false;
+  let isMuted = false;
+  let isSeeking = false;
+  let userPaused = false;
+  let pendingPlay = false;
+  let tickTimer = null;
+
+  let vol = DEFAULT_VOL;
+  try {
+    const saved = Number(localStorage.getItem(VOL_KEY));
+    if (!Number.isNaN(saved) && saved >= 0 && saved <= 100) {
+      vol = saved;
+    }
+  } catch {
+    // Ignore storage restriction
+  }
+
+  function formatTime(sec) {
+    if (!Number.isFinite(sec) || sec < 0) return "0:00";
+    const whole = Math.floor(sec);
+    const m = Math.floor(whole / 60);
+    const s = whole % 60;
+    return `${m}:${String(s).padStart(2, "0")}`;
+  }
+
+  function setRangeFill(input) {
+    const min = Number(input.min || 0);
+    const max = Number(input.max || 100);
+    const val = Number(input.value || 0);
+    const span = Math.max(0.0001, max - min);
+    const pct = Math.max(0, Math.min(100, ((val - min) / span) * 100));
+    input.style.setProperty("--fill", `${pct.toFixed(2)}%`);
+  }
+
+  function setSvgHidden(el, shouldHide) {
+    if (!el) return;
+    if (shouldHide) el.setAttribute("hidden", "");
+    else el.removeAttribute("hidden");
+  }
+
+  function updatePlayUI(playing) {
+    isPlaying = playing;
+    playerEl.classList.toggle("is-playing", playing);
+    toggleBtn.setAttribute("aria-pressed", playing ? "true" : "false");
+    toggleBtn.setAttribute("aria-label", playing ? "Tạm dừng nhạc nền" : "Phát nhạc nền");
+    setSvgHidden(icoPlay, playing);
+    setSvgHidden(icoPause, !playing);
+  }
+
+  function updateMuteUI(muted) {
+    isMuted = muted;
+    muteBtn.setAttribute("aria-label", muted ? "Bật tiếng" : "Tắt tiếng");
+    setSvgHidden(icoVol, muted);
+    setSvgHidden(icoMuted, !muted);
+  }
+
+  function stopTicker() {
+    if (tickTimer) {
+      clearInterval(tickTimer);
+      tickTimer = null;
+    }
+  }
+
+  function syncTimeline() {
+    if (!playerReady || !player || isSeeking) return;
+    const dur =
+      typeof player.getDuration === "function" && player.getDuration() > 0
+        ? player.getDuration()
+        : DEFAULT_DURATION;
+    const cur = typeof player.getCurrentTime === "function" ? player.getCurrentTime() : 0;
+    seekEl.max = String(Math.round(dur));
+    seekEl.value = String(Math.min(dur, cur));
+    setRangeFill(seekEl);
+    curEl.textContent = formatTime(cur);
+    durEl.textContent = formatTime(dur);
+  }
+
+  function startTicker() {
+    stopTicker();
+    syncTimeline();
+    tickTimer = setInterval(syncTimeline, 250);
+  }
+
+  function showNote(text) {
+    if (!noteEl) return;
+    noteEl.textContent = text;
+    noteEl.hidden = !text;
+  }
+
+  volEl.value = String(vol);
+  setRangeFill(volEl);
+  updateMuteUI(vol === 0);
+  setRangeFill(seekEl);
+
+  function startPlayback() {
+    if (!player || typeof player.playVideo !== "function") return;
+    if (!isMuted && vol > 0 && typeof player.unMute === "function") {
+      player.unMute();
+      player.setVolume(vol);
+    }
+    player.playVideo();
+  }
+
+  function createPlayer() {
+    if (player || !window.YT || typeof window.YT.Player !== "function") return;
+    const playerVars = {
+      autoplay: 0,
+      controls: 0,
+      disablekb: 1,
+      fs: 0,
+      modestbranding: 1,
+      playsinline: 1,
+      rel: 0,
+      loop: 1,
+      playlist: VIDEO_ID,
+    };
+    if (window.location.protocol.startsWith("http")) {
+      playerVars.origin = window.location.origin;
+    }
+
+    player = new window.YT.Player("bgm-yt-mount", {
+      width: 200,
+      height: 112,
+      videoId: VIDEO_ID,
+      playerVars,
+      events: {
+        onReady: () => {
+          playerReady = true;
+          if (typeof player.setVolume === "function") {
+            player.setVolume(vol);
+          }
+          if (vol === 0 && typeof player.mute === "function") {
+            player.mute();
+          }
+          const dur =
+            typeof player.getDuration === "function" && player.getDuration() > 0
+              ? player.getDuration()
+              : DEFAULT_DURATION;
+          seekEl.max = String(Math.round(dur));
+          durEl.textContent = formatTime(dur);
+          setRangeFill(seekEl);
+          playerEl.dataset.state = "ready";
+          if (pendingPlay && !userPaused) {
+            startPlayback();
+          }
+        },
+        onStateChange: (e) => {
+          const S = window.YT.PlayerState;
+          if (e.data === S.PLAYING) {
+            pendingPlay = false;
+            delete playerEl.dataset.error;
+            playerEl.dataset.state = "playing";
+            showNote("");
+            updatePlayUI(true);
+            startTicker();
+          } else if (e.data === S.PAUSED) {
+            playerEl.dataset.state = "paused";
+            updatePlayUI(false);
+            stopTicker();
+          } else if (e.data === S.BUFFERING) {
+            playerEl.dataset.state = "buffering";
+          } else if (e.data === S.ENDED) {
+            if (typeof player.seekTo === "function") {
+              player.seekTo(0, true);
+              player.playVideo();
+            }
+          }
+        },
+        onError: (e) => {
+          playerEl.dataset.error = String(e.data);
+          playerEl.dataset.state = "error";
+          updatePlayUI(false);
+          stopTicker();
+          const msg =
+            e.data === 101 || e.data === 150
+              ? "Bài này bị chủ bản quyền tắt nhúng ngoài YouTube — bấm tên bài để nghe trên YouTube hoặc đổi link khác."
+              : "Không thể tải nhạc YouTube lúc này.";
+          showNote(msg);
+        },
+      },
+    });
+  }
+
+  toggleBtn.addEventListener("click", () => {
+    if (isPlaying) {
+      userPaused = true;
+      pendingPlay = false;
+      if (playerReady && player && typeof player.pauseVideo === "function") {
+        player.pauseVideo();
+      }
+      return;
+    }
+    userPaused = false;
+    if (playerReady) {
+      startPlayback();
+    } else {
+      pendingPlay = true;
+    }
+  });
+
+  muteBtn.addEventListener("click", () => {
+    const nextMuted = !isMuted;
+    updateMuteUI(nextMuted);
+    if (!nextMuted && vol === 0) {
+      vol = DEFAULT_VOL;
+      volEl.value = String(vol);
+      setRangeFill(volEl);
+      try {
+        localStorage.setItem(VOL_KEY, String(vol));
+      } catch {
+        // Ignore storage error
+      }
+    }
+    if (playerReady && player) {
+      if (nextMuted) {
+        if (typeof player.mute === "function") player.mute();
+      } else {
+        if (typeof player.unMute === "function") player.unMute();
+        if (typeof player.setVolume === "function") player.setVolume(vol);
+      }
+    }
+  });
+
+  volEl.addEventListener("input", () => {
+    vol = Number(volEl.value);
+    setRangeFill(volEl);
+    try {
+      localStorage.setItem(VOL_KEY, String(vol));
+    } catch {
+      // Ignore storage error
+    }
+    updateMuteUI(vol === 0);
+    if (playerReady && player) {
+      if (vol === 0) {
+        if (typeof player.mute === "function") player.mute();
+      } else {
+        if (typeof player.unMute === "function") player.unMute();
+        if (typeof player.setVolume === "function") player.setVolume(vol);
+      }
+    }
+  });
+
+  ["pointerdown", "mousedown", "touchstart"].forEach((evt) => {
+    seekEl.addEventListener(
+      evt,
+      () => {
+        isSeeking = true;
+      },
+      { passive: true }
+    );
+  });
+
+  seekEl.addEventListener("input", () => {
+    setRangeFill(seekEl);
+    curEl.textContent = formatTime(Number(seekEl.value));
+  });
+
+  function commitSeek() {
+    const targetSec = Number(seekEl.value);
+    isSeeking = false;
+    setRangeFill(seekEl);
+    curEl.textContent = formatTime(targetSec);
+    if (playerReady && player && typeof player.seekTo === "function") {
+      player.seekTo(targetSec, true);
+    }
+  }
+
+  ["change", "pointerup", "mouseup", "touchend"].forEach((evt) => {
+    seekEl.addEventListener(evt, commitSeek);
+  });
+
+  function cleanupGesture() {
+    document.removeEventListener("pointerdown", onFirstGesture);
+    document.removeEventListener("keydown", onFirstGesture);
+  }
+
+  function onFirstGesture(e) {
+    if (e.target && typeof e.target.closest === "function" && e.target.closest("#bgm-player")) {
+      return;
+    }
+    cleanupGesture();
+    if (userPaused || isPlaying) return;
+    if (playerReady) {
+      startPlayback();
+    } else {
+      pendingPlay = true;
+    }
+  }
+
+  document.addEventListener("pointerdown", onFirstGesture, { passive: true });
+  document.addEventListener("keydown", onFirstGesture);
+
+  if (window.YT && typeof window.YT.Player === "function") {
+    createPlayer();
+  } else {
+    const prevReady = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      if (typeof prevReady === "function") prevReady();
+      createPlayer();
+    };
+    if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      tag.async = true;
+      document.head.appendChild(tag);
+    }
+  }
+})();

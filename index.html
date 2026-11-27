@@ -20,7 +20,7 @@
     href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Bricolage+Grotesque:wght@600;700;800&family=Caveat:wght@700&family=JetBrains+Mono:wght@500;600&family=Orbitron:wght@700;800&family=Playfair+Display:ital,wght@1,700&family=Silkscreen:wght@400;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=5" />
 </head>
 <body>
   <canvas id="liquid-bg" aria-hidden="true"></canvas>
@@ -833,6 +833,110 @@
     </div>
   </footer>
 
-  <script src="script.js?v=3"></script>
+  <!-- Off-screen YouTube API Host + Always-Visible Floating Music Timeline -->
+  <div class="bgm-yt-host" aria-hidden="true">
+    <div id="bgm-yt-mount"></div>
+  </div>
+
+  <aside id="bgm-player" class="bgm-player" aria-label="Nhạc nền" data-state="idle">
+    <div class="bgm-top">
+      <a
+        href="https://www.youtube.com/watch?v=rYWLIJB214Q"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bgm-track"
+        title="Mở trên YouTube"
+      >
+        <div class="bgm-cover">
+          <img
+            src="https://i.ytimg.com/vi/rYWLIJB214Q/mqdefault.jpg"
+            alt="Nếu Như Ta Chẳng Còn - MCK"
+            width="40"
+            height="40"
+            loading="eager"
+          />
+          <span class="bgm-eq" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </div>
+
+        <div class="bgm-meta">
+          <strong id="bgm-title" class="bgm-title">Nếu Như Ta Chẳng Còn</strong>
+          <span id="bgm-artist" class="bgm-artist">MCK (ft. A$AP Ướt Mi)</span>
+        </div>
+      </a>
+
+      <div class="bgm-controls">
+        <div class="bgm-vol-wrap">
+          <button
+            type="button"
+            id="bgm-mute"
+            class="bgm-icon-btn"
+            aria-label="Tắt tiếng"
+            title="Tắt / bật tiếng"
+          >
+            <svg id="bgm-ico-vol" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+            </svg>
+            <svg id="bgm-ico-muted" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden>
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <line x1="22" y1="9" x2="16" y2="15" />
+              <line x1="16" y1="9" x2="22" y2="15" />
+            </svg>
+          </button>
+
+          <input
+            type="range"
+            id="bgm-vol"
+            class="bgm-vol-slider"
+            min="0"
+            max="100"
+            value="35"
+            aria-label="Âm lượng nhạc nền"
+          />
+        </div>
+
+        <button
+          type="button"
+          id="bgm-toggle"
+          class="bgm-play-btn"
+          aria-label="Phát nhạc nền"
+          aria-pressed="false"
+          title="Phát / Tạm dừng"
+        >
+          <svg id="bgm-ico-play" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
+            <path d="M6.5 4.2a.8.8 0 0 1 1.22-.68l12.4 7.8a.8.8 0 0 1 0 1.36l-12.4 7.8A.8.8 0 0 1 6.5 19.8V4.2Z" />
+          </svg>
+          <svg id="bgm-ico-pause" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true" hidden>
+            <rect x="6" y="4" width="4" height="16" rx="1" />
+            <rect x="14" y="4" width="4" height="16" rx="1" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="bgm-timeline">
+      <span id="bgm-cur" class="bgm-time">0:00</span>
+      <input
+        type="range"
+        id="bgm-seek"
+        class="bgm-seek"
+        min="0"
+        max="315"
+        step="0.5"
+        value="0"
+        aria-label="Tua thời gian bài hát"
+      />
+      <span id="bgm-dur" class="bgm-time">5:15</span>
+    </div>
+
+    <span id="bgm-note" class="bgm-note" hidden></span>
+  </aside>
+
+  <script src="script.js?v=5"></script>
 </body>
 </html>
