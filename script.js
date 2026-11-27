@@ -16,9 +16,112 @@ if (donateScrollBtn) {
   });
 }
 
-// Live CS2 Stats via Public Leetify Profile API (Steam64: 76561198845357399)
+// CS2 Stats 2-Tab Switcher (Matchmaking / FACEIT)
+(function initCs2Tabs() {
+  const tabs = [
+    document.getElementById("cs2-tab-mm"),
+    document.getElementById("cs2-tab-faceit"),
+  ].filter(Boolean);
+  const panels = {
+    mm: document.getElementById("cs2-panel-mm"),
+    faceit: document.getElementById("cs2-panel-faceit"),
+  };
+  const modeMetaEl = document.getElementById("cs2-mode-meta");
+  const modeMetaLabels = {
+    mm: "Erist • 3,640 hrs CS2",
+    faceit: "Erist_ • FACEIT CS2",
+  };
+
+  if (tabs.length < 2 || !panels.mm || !panels.faceit) return;
+
+  function activateTab(key, moveFocus) {
+    tabs.forEach((tab) => {
+      const tabKey = tab.dataset.cs2Tab;
+      const active = tabKey === key;
+      tab.setAttribute("aria-selected", active ? "true" : "false");
+      tab.tabIndex = active ? 0 : -1;
+      tab.classList.toggle("is-active", active);
+      if (panels[tabKey]) {
+        panels[tabKey].hidden = !active;
+      }
+      if (active && moveFocus) {
+        tab.focus();
+      }
+    });
+    if (modeMetaEl && modeMetaLabels[key]) {
+      modeMetaEl.textContent = modeMetaLabels[key];
+    }
+  }
+
+  tabs.forEach((tab, idx) => {
+    tab.addEventListener("click", () => {
+      activateTab(tab.dataset.cs2Tab, false);
+    });
+
+    tab.addEventListener("keydown", (e) => {
+      let nextIdx = -1;
+      if (e.key === "ArrowRight") nextIdx = (idx + 1) % tabs.length;
+      else if (e.key === "ArrowLeft") nextIdx = (idx - 1 + tabs.length) % tabs.length;
+      else if (e.key === "Home") nextIdx = 0;
+      else if (e.key === "End") nextIdx = tabs.length - 1;
+      if (nextIdx >= 0) {
+        e.preventDefault();
+        activateTab(tabs[nextIdx].dataset.cs2Tab, true);
+      }
+    });
+  });
+})();
+
+// Live CS2 Stats via Public Leetify v3 API (Steam64: 76561198845357399)
 (function initCs2Stats() {
-  const endpoint = "https://api-public.cs-prod.leetify.com/v3/profile?steam64_id=76561198845357399";
+  const STEAM_ID = "76561198845357399";
+  const PROFILE_URL = `https://api-public.cs-prod.leetify.com/v3/profile?steam64_id=${STEAM_ID}`;
+  const MATCHES_URL = `https://api-public.cs-prod.leetify.com/v3/profile/matches?steam64_id=${STEAM_ID}`;
+
+  const PEAKS = {
+    premier: 23679,
+    comp: 16,
+    faceitLevel: 10,
+    faceitElo: 2456,
+  };
+  const FACEIT_SNAPSHOT_MS = Date.parse("2026-08-14T00:00:00Z");
+
+  const COMP_RANKS = {
+    1: ["S1", "Silver I"],
+    2: ["S2", "Silver II"],
+    3: ["S3", "Silver III"],
+    4: ["S4", "Silver IV"],
+    5: ["SE", "Silver Elite"],
+    6: ["SEM", "Silver Elite Master"],
+    7: ["GN1", "Gold Nova I"],
+    8: ["GN2", "Gold Nova II"],
+    9: ["GN3", "Gold Nova III"],
+    10: ["GNM", "Gold Nova Master"],
+    11: ["MG1", "Master Guardian I"],
+    12: ["MG2", "Master Guardian II"],
+    13: ["MGE", "Master Guardian Elite"],
+    14: ["DMG", "Distinguished Master Guardian"],
+    15: ["LE", "Legendary Eagle"],
+    16: ["LEM", "Legendary Eagle Master"],
+    17: ["SMFC", "Supreme Master First Class"],
+    18: ["GE", "Global Elite"],
+  };
+
+  const MAP_NAMES = {
+    de_mirage: "Mirage",
+    de_dust2: "Dust 2",
+    de_inferno: "Inferno",
+    de_nuke: "Nuke",
+    de_ancient: "Ancient",
+    de_anubis: "Anubis",
+    de_overpass: "Overpass",
+    de_vertigo: "Vertigo",
+    de_train: "Train",
+    de_cache: "Cache",
+    de_cbble: "Cobblestone",
+    cs_office: "Office",
+    cs_italy: "Italy",
+  };
 
   function setText(id, value) {
     const el = document.getElementById(id);
@@ -27,53 +130,366 @@ if (donateScrollBtn) {
     }
   }
 
-  fetch(endpoint)
-    .then((res) => (res.ok ? res.json() : null))
-    .then((data) => {
-      if (!data || typeof data !== "object") return;
+  function formatMapName(raw) {
+    if (!raw || typeof raw !== "string") return "";
+    if (MAP_NAMES[raw]) return MAP_NAMES[raw];
+    const bare = raw.replace(/^(de_|cs_)/, "");
+    return bare.charAt(0).toUpperCase() + bare.slice(1);
+  }
 
-      const ranks = data.ranks || {};
-      const rating = data.rating || {};
-      const stats = data.stats || {};
+  function formatSigned(val, decimals) {
+    const sign = val >= 0 ? "+" : "";
+    return `${sign}${val.toFixed(decimals)}`;
+  }
 
-      if (typeof ranks.premier === "number") {
-        setText("cs2-premier", ranks.premier.toLocaleString("en-US"));
+  function premierTierClass(rating) {
+    if (rating >= 30000) return "tier-premier-gold";
+    if (rating >= 25000) return "tier-premier-red";
+    if (rating >= 20000) return "tier-premier-pink";
+    if (rating >= 15000) return "tier-premier-purple";
+    if (rating >= 10000) return "tier-premier-blue";
+    if (rating >= 5000) return "tier-premier-lightblue";
+    return "tier-premier-grey";
+  }
+
+  function faceitTierClass(level) {
+    if (level >= 10) return "tier-faceit-10";
+    if (level >= 8) return "tier-faceit-9";
+    if (level >= 4) return "tier-faceit-mid";
+    return "tier-faceit-low";
+  }
+
+  function renderCompMaps(items) {
+    const container = document.getElementById("mm-comp-maps");
+    if (!container || !items.length) return;
+    container.replaceChildren();
+    items.forEach((item) => {
+      const info = COMP_RANKS[item.rank];
+      if (!info) return;
+      const chip = document.createElement("span");
+      chip.className = "cs2-chip";
+      chip.title = info[1];
+
+      const nameEl = document.createElement("span");
+      nameEl.className = "cs2-chip-name";
+      nameEl.textContent = formatMapName(item.map_name);
+
+      const valEl = document.createElement("strong");
+      valEl.className = "cs2-chip-val";
+      valEl.textContent = info[0];
+
+      chip.append(nameEl, valEl);
+      container.appendChild(chip);
+    });
+  }
+
+  function renderFormDots(containerId, items) {
+    const container = document.getElementById(containerId);
+    if (!container || !items.length) return;
+    container.replaceChildren();
+    items.forEach((entry) => {
+      const dot = document.createElement("span");
+      const cls = entry.code === "W" ? "form-w" : entry.code === "L" ? "form-l" : "form-t";
+      dot.className = `cs2-form-dot ${cls}`;
+      dot.textContent = entry.code;
+      dot.title = `${entry.map} ${entry.score} (${entry.code})`;
+      container.appendChild(dot);
+    });
+  }
+
+  function aggregateMatches(matches) {
+    let kills = 0;
+    let deaths = 0;
+    let hsKills = 0;
+    let dmg = 0;
+    let rounds = 0;
+    let w = 0;
+    let l = 0;
+    let t = 0;
+    let m3 = 0;
+    let m4 = 0;
+    let m5 = 0;
+    let csGood = 0;
+    let csAll = 0;
+    let reactSum = 0;
+    let reactN = 0;
+    let preaimSum = 0;
+    let preaimN = 0;
+    let ratingSum = 0;
+    let ratingN = 0;
+    const form = [];
+
+    matches.forEach((m) => {
+      const statsList = Array.isArray(m.stats) ? m.stats : [];
+      const s = statsList.find((x) => x && x.steam64_id === STEAM_ID);
+      if (!s) return;
+
+      kills += s.total_kills || 0;
+      deaths += s.total_deaths || 0;
+      hsKills += s.total_hs_kills || 0;
+      dmg += s.total_damage || 0;
+      rounds += s.rounds_count || 0;
+      const rw = s.rounds_won || 0;
+      const rl = s.rounds_lost || 0;
+      const code = rw > rl ? "W" : rw < rl ? "L" : "T";
+      if (code === "W") w += 1;
+      else if (code === "L") l += 1;
+      else t += 1;
+
+      if (form.length < 8) {
+        form.push({
+          code,
+          map: formatMapName(m.map_name),
+          score: `${rw}–${rl}`,
+        });
       }
+
+      m3 += s.multi3k || 0;
+      m4 += s.multi4k || 0;
+      m5 += s.multi5k || 0;
+      csGood += s.counter_strafing_shots_good || 0;
+      csAll += s.counter_strafing_shots_all || 0;
+
+      if (typeof s.reaction_time === "number" && s.reaction_time > 0) {
+        reactSum += s.reaction_time * 1000;
+        reactN += 1;
+      }
+      if (typeof s.preaim === "number" && s.preaim > 0) {
+        preaimSum += s.preaim;
+        preaimN += 1;
+      }
+      if (typeof s.leetify_rating === "number") {
+        ratingSum += s.leetify_rating * 100;
+        ratingN += 1;
+      }
+    });
+
+    const count = w + l + t;
+    return {
+      count,
+      w,
+      l,
+      t,
+      kills,
+      hsKills,
+      wr: count > 0 ? (100 * w) / count : 0,
+      kd: deaths > 0 ? kills / deaths : 0,
+      adr: rounds > 0 ? dmg / rounds : 0,
+      hsKillPct: kills > 0 ? (100 * hsKills) / kills : 0,
+      csPct: csAll > 0 ? (100 * csGood) / csAll : 0,
+      reactMs: reactN > 0 ? reactSum / reactN : 0,
+      preaim: preaimN > 0 ? preaimSum / preaimN : 0,
+      rating: ratingN > 0 ? ratingSum / ratingN : 0,
+      m3,
+      m4,
+      m5,
+      form,
+    };
+  }
+
+  function applyProfile(data) {
+    if (!data || typeof data !== "object") return;
+    const ranks = data.ranks || {};
+    const rating = data.rating || {};
+    const stats = data.stats || {};
+    const recent = Array.isArray(data.recent_matches) ? data.recent_matches : [];
+
+    if (typeof ranks.premier === "number") {
+      setText("mm-premier", ranks.premier.toLocaleString("en-US"));
+      const dot = document.getElementById("mm-premier-dot");
+      if (dot) dot.className = `tier-dot ${premierTierClass(ranks.premier)}`;
+
+      const recentPremierMax = recent.reduce((acc, m) => {
+        if (m && m.data_source === "matchmaking" && m.rank_type === 11 && typeof m.rank === "number") {
+          return Math.max(acc, m.rank);
+        }
+        return acc;
+      }, 0);
+      const bestPremier = Math.max(PEAKS.premier, ranks.premier, recentPremierMax);
+      setText("mm-premier-peak", bestPremier.toLocaleString("en-US"));
+      if (bestPremier > PEAKS.premier) {
+        setText("mm-premier-peak-meta", "• Peak");
+      }
+    }
+
+    const activeComp = Array.isArray(ranks.competitive)
+      ? ranks.competitive
+          .filter((item) => item && typeof item.rank === "number" && item.rank > 0 && COMP_RANKS[item.rank])
+          .sort((a, b) => b.rank - a.rank)
+      : [];
+    if (activeComp.length > 0) {
+      const top = activeComp[0];
+      const topInfo = COMP_RANKS[top.rank];
+      const compEl = document.getElementById("mm-comp-rank");
+      if (compEl && topInfo) {
+        compEl.textContent = topInfo[0];
+        compEl.title = topInfo[1];
+      }
+
+      const recentCompMax = recent.reduce((acc, m) => {
+        if (
+          m &&
+          m.data_source === "matchmaking" &&
+          m.rank_type === 12 &&
+          typeof m.rank === "number" &&
+          m.rank <= 18
+        ) {
+          return Math.max(acc, m.rank);
+        }
+        return acc;
+      }, 0);
+      const bestComp = Math.max(PEAKS.comp, top.rank, recentCompMax);
+      const bestInfo = COMP_RANKS[bestComp];
+      const peakEl = document.getElementById("mm-comp-peak");
+      if (peakEl && bestInfo) {
+        peakEl.textContent = bestInfo[0];
+        peakEl.title = bestInfo[1];
+      }
+      if (bestComp === top.rank) {
+        setText("mm-comp-peak-meta", `• ${formatMapName(top.map_name)}`);
+      }
+      renderCompMaps(activeComp);
+    }
+
+    if (typeof ranks.leetify === "number") {
+      setText("mm-leetify", formatSigned(ranks.leetify, 2));
+    }
+    if (typeof rating.ct_leetify === "number" && typeof rating.t_leetify === "number") {
+      const ct = formatSigned(rating.ct_leetify * 100, 2);
+      const tSide = formatSigned(rating.t_leetify * 100, 2);
+      setText("mm-sides", `CT ${ct} • T ${tSide}`);
+    }
+    if (typeof data.winrate === "number") {
+      const pct = data.winrate <= 1 ? data.winrate * 100 : data.winrate;
+      setText("mm-winrate", `${pct.toFixed(1)}%`);
+    }
+    if (typeof data.total_matches === "number") {
+      setText("mm-matches", `${data.total_matches.toLocaleString("en-US")} tracked`);
+    }
+    if (typeof rating.aim === "number") {
+      setText("mm-aim", rating.aim.toFixed(1));
+    }
+    if (typeof rating.positioning === "number" && typeof rating.utility === "number") {
+      setText("mm-sub-ratings", `Pos ${rating.positioning.toFixed(1)} • Util ${rating.utility.toFixed(1)}`);
+    }
+    if (typeof stats.counter_strafing_good_shots_ratio === "number") {
+      setText("mm-cs", `${stats.counter_strafing_good_shots_ratio.toFixed(1)}%`);
+    }
+    if (typeof stats.reaction_time_ms === "number") {
+      setText("mm-ttd", `${Math.round(stats.reaction_time_ms)} ms`);
+    }
+    if (typeof stats.preaim === "number") {
+      setText("mm-preaim", `${stats.preaim.toFixed(1)}° preaim`);
+    }
+    if (typeof stats.accuracy_enemy_spotted === "number") {
+      setText("mm-acc", `${stats.accuracy_enemy_spotted.toFixed(1)}%`);
+    }
+    if (typeof stats.spray_accuracy === "number") {
+      setText("mm-spray", `${stats.spray_accuracy.toFixed(1)}% spray`);
+    }
+    if (typeof stats.accuracy_head === "number") {
+      setText("mm-hs-acc", `${stats.accuracy_head.toFixed(1)}%`);
+    }
+    if (
+      typeof stats.ct_opening_duel_success_percentage === "number" &&
+      typeof stats.t_opening_duel_success_percentage === "number"
+    ) {
+      setText("mm-open-ct", `${stats.ct_opening_duel_success_percentage.toFixed(1)}%`);
+      setText("mm-open-t", `CT • ${stats.t_opening_duel_success_percentage.toFixed(1)}% T`);
+    }
+
+    // Only update current FACEIT rank if Leetify has matches newer than the verified Aug 2026 snapshot
+    const newestFaceitMs = recent.reduce((maxMs, m) => {
+      if (m && m.data_source === "faceit" && m.finished_at) {
+        const ts = Date.parse(m.finished_at);
+        if (!Number.isNaN(ts)) return Math.max(maxMs, ts);
+      }
+      return maxMs;
+    }, 0);
+
+    if (newestFaceitMs > FACEIT_SNAPSHOT_MS) {
       if (typeof ranks.faceit === "number") {
-        setText("cs2-faceit-lvl", `Level ${ranks.faceit}`);
+        setText("fc-level", `Level ${ranks.faceit}`);
+        const fcDot = document.getElementById("fc-lvl-dot");
+        if (fcDot) fcDot.className = `tier-dot ${faceitTierClass(ranks.faceit)}`;
       }
       if (typeof ranks.faceit_elo === "number") {
-        setText("cs2-faceit-elo", `${ranks.faceit_elo.toLocaleString("en-US")} ELO`);
+        setText("fc-elo", `${ranks.faceit_elo.toLocaleString("en-US")} ELO`);
       }
-      if (typeof rating.aim === "number") {
-        setText("cs2-aim", rating.aim.toFixed(1));
+    }
+
+    if (typeof ranks.faceit === "number" && ranks.faceit > PEAKS.faceitLevel) {
+      setText("fc-peak-lvl", `Level ${ranks.faceit}`);
+    }
+    if (typeof ranks.faceit_elo === "number" && ranks.faceit_elo > PEAKS.faceitElo) {
+      setText("fc-peak-elo", `${ranks.faceit_elo.toLocaleString("en-US")} ELO`);
+      setText("fc-peak-meta", "• Peak");
+    }
+  }
+
+  function applyMatches(matches) {
+    if (!Array.isArray(matches) || matches.length === 0) return;
+
+    const premList = matches.filter((m) => m && m.data_source === "matchmaking");
+    const compList = matches.filter((m) => m && m.data_source === "matchmaking_competitive");
+    const faceitList = matches.filter((m) => m && m.data_source === "faceit");
+
+    if (premList.length > 0) {
+      const p = aggregateMatches(premList);
+      const tiePart = p.t > 0 ? `–${p.t}T` : "";
+      setText("mm-prem-record", `${p.w}W–${p.l}L${tiePart} • ${p.wr.toFixed(1)}% WR`);
+      setText("mm-prem-kd", p.kd.toFixed(2));
+      setText("mm-prem-adr", p.adr.toFixed(1));
+      setText("mm-prem-hs", `${p.hsKillPct.toFixed(1)}%`);
+      setText("mm-prem-rating", formatSigned(p.rating, 2));
+      renderFormDots("mm-prem-form", p.form);
+    }
+
+    if (compList.length > 0) {
+      const c = aggregateMatches(compList);
+      const tiePart = c.t > 0 ? `–${c.t}T` : "";
+      setText("mm-comp-record", `${c.w}W–${c.l}L${tiePart} • ${c.wr.toFixed(1)}% WR`);
+      setText("mm-comp-kd", c.kd.toFixed(2));
+      setText("mm-comp-adr", c.adr.toFixed(1));
+      setText("mm-comp-hs", `${c.hsKillPct.toFixed(1)}%`);
+      setText("mm-comp-rating", formatSigned(c.rating, 2));
+      renderFormDots("mm-comp-form", c.form);
+    }
+
+    const combinedMm = premList.concat(compList);
+    if (combinedMm.length > 0) {
+      const mm = aggregateMatches(combinedMm);
+      setText("mm-hs-kill", `${mm.hsKillPct.toFixed(1)}% HS kills`);
+      setText("mm-multi-label", `Multi-Kills (${mm.count}g)`);
+      setText("mm-aces", `${mm.m5} ${mm.m5 === 1 ? "Ace" : "Aces"}`);
+      setText("mm-multis", `${mm.m3}× 3K • ${mm.m4}× 4K`);
+    }
+
+    if (faceitList.length > 0) {
+      const f = aggregateMatches(faceitList);
+      setText("fc-recent-label", `Recent ${f.count}g`);
+      setText("fc-recent-kd", `${f.kd.toFixed(2)} K/D`);
+      setText("fc-recent-sub", `${f.adr.toFixed(1)} ADR • ${f.wr.toFixed(1)}% WR`);
+      setText("fc-mech-label", `Mechanics (${f.count}g)`);
+      setText("fc-ttd", `${Math.round(f.reactMs)} ms`);
+      setText("fc-mech-sub", `${f.preaim.toFixed(1)}° preaim • ${f.csPct.toFixed(1)}% CS`);
+    }
+  }
+
+  Promise.allSettled([
+    fetch(PROFILE_URL).then((res) => (res.ok ? res.json() : null)),
+    fetch(MATCHES_URL).then((res) => (res.ok ? res.json() : null)),
+  ])
+    .then(([profileRes, matchesRes]) => {
+      if (profileRes.status === "fulfilled" && profileRes.value) {
+        applyProfile(profileRes.value);
       }
-      if (typeof ranks.leetify === "number") {
-        const sign = ranks.leetify >= 0 ? "+" : "";
-        setText("cs2-leetify", `${sign}${ranks.leetify.toFixed(2)} Rating`);
-      }
-      if (typeof data.winrate === "number") {
-        const pct = data.winrate <= 1 ? data.winrate * 100 : data.winrate;
-        setText("cs2-winrate", `${pct.toFixed(1)}%`);
-      }
-      if (typeof data.total_matches === "number") {
-        setText("cs2-matches", `${data.total_matches.toLocaleString("en-US")} matches`);
-      }
-      if (typeof stats.counter_strafing_good_shots_ratio === "number") {
-        setText("cs2-cs", `${stats.counter_strafing_good_shots_ratio.toFixed(1)}%`);
-      }
-      if (typeof stats.accuracy_head === "number") {
-        setText("cs2-hs", `${stats.accuracy_head.toFixed(1)}%`);
-      }
-      if (typeof stats.reaction_time_ms === "number") {
-        setText("cs2-ttd", `${Math.round(stats.reaction_time_ms)} ms`);
-      }
-      if (typeof stats.preaim === "number") {
-        setText("cs2-preaim", `${stats.preaim.toFixed(1)}° preaim`);
+      if (matchesRes.status === "fulfilled" && matchesRes.value) {
+        applyMatches(matchesRes.value);
       }
     })
     .catch(() => {
-      // Keep verified snapshot values if live request is unavailable
+      // Keep verified snapshot values if live requests are unavailable
     });
 })();
 
