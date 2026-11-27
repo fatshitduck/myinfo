@@ -152,11 +152,14 @@ if (donateScrollBtn) {
     return "tier-premier-grey";
   }
 
-  function faceitTierClass(level) {
-    if (level >= 10) return "tier-faceit-10";
-    if (level >= 8) return "tier-faceit-9";
-    if (level >= 4) return "tier-faceit-mid";
-    return "tier-faceit-low";
+  function compIconSrc(rankId) {
+    const clamped = Math.max(1, Math.min(18, Math.round(rankId)));
+    return `assets/ranks/comp-${clamped}.png`;
+  }
+
+  function faceitIconSrc(level) {
+    const clamped = Math.max(1, Math.min(10, Math.round(level)));
+    return `assets/ranks/faceit-${clamped}.svg`;
   }
 
   function renderCompMaps(items) {
@@ -174,11 +177,19 @@ if (donateScrollBtn) {
       nameEl.className = "cs2-chip-name";
       nameEl.textContent = formatMapName(item.map_name);
 
+      const iconEl = document.createElement("img");
+      iconEl.className = "rank-icon-chip";
+      iconEl.src = compIconSrc(item.rank);
+      iconEl.alt = "";
+      iconEl.width = 40;
+      iconEl.height = 16;
+      iconEl.setAttribute("aria-hidden", "true");
+
       const valEl = document.createElement("strong");
       valEl.className = "cs2-chip-val";
       valEl.textContent = info[0];
 
-      chip.append(nameEl, valEl);
+      chip.append(nameEl, iconEl, valEl);
       container.appendChild(chip);
     });
   }
@@ -296,8 +307,10 @@ if (donateScrollBtn) {
 
     if (typeof ranks.premier === "number") {
       setText("mm-premier", ranks.premier.toLocaleString("en-US"));
-      const dot = document.getElementById("mm-premier-dot");
-      if (dot) dot.className = `tier-dot ${premierTierClass(ranks.premier)}`;
+      const iconEl = document.getElementById("mm-premier-icon");
+      if (iconEl) {
+        iconEl.setAttribute("class", `rank-icon-premier ${premierTierClass(ranks.premier)}`);
+      }
 
       const recentPremierMax = recent.reduce((acc, m) => {
         if (m && m.data_source === "matchmaking" && m.rank_type === 11 && typeof m.rank === "number") {
@@ -307,6 +320,10 @@ if (donateScrollBtn) {
       }, 0);
       const bestPremier = Math.max(PEAKS.premier, ranks.premier, recentPremierMax);
       setText("mm-premier-peak", bestPremier.toLocaleString("en-US"));
+      const peakIconEl = document.getElementById("mm-premier-peak-icon");
+      if (peakIconEl) {
+        peakIconEl.setAttribute("class", `rank-icon-premier-sm ${premierTierClass(bestPremier)}`);
+      }
       if (bestPremier > PEAKS.premier) {
         setText("mm-premier-peak-meta", "• Peak");
       }
@@ -324,6 +341,11 @@ if (donateScrollBtn) {
       if (compEl && topInfo) {
         compEl.textContent = topInfo[0];
         compEl.title = topInfo[1];
+      }
+      const compIconEl = document.getElementById("mm-comp-icon");
+      if (compIconEl && topInfo) {
+        compIconEl.src = compIconSrc(top.rank);
+        compIconEl.alt = topInfo[1];
       }
 
       const recentCompMax = recent.reduce((acc, m) => {
@@ -344,6 +366,10 @@ if (donateScrollBtn) {
       if (peakEl && bestInfo) {
         peakEl.textContent = bestInfo[0];
         peakEl.title = bestInfo[1];
+      }
+      const peakCompIcon = document.getElementById("mm-comp-peak-icon");
+      if (peakCompIcon) {
+        peakCompIcon.src = compIconSrc(bestComp);
       }
       if (bestComp === top.rank) {
         setText("mm-comp-peak-meta", `• ${formatMapName(top.map_name)}`);
@@ -410,8 +436,11 @@ if (donateScrollBtn) {
     if (newestFaceitMs > FACEIT_SNAPSHOT_MS) {
       if (typeof ranks.faceit === "number") {
         setText("fc-level", `Level ${ranks.faceit}`);
-        const fcDot = document.getElementById("fc-lvl-dot");
-        if (fcDot) fcDot.className = `tier-dot ${faceitTierClass(ranks.faceit)}`;
+        const fcIcon = document.getElementById("fc-lvl-icon");
+        if (fcIcon) {
+          fcIcon.src = faceitIconSrc(ranks.faceit);
+          fcIcon.alt = `FACEIT Level ${ranks.faceit}`;
+        }
       }
       if (typeof ranks.faceit_elo === "number") {
         setText("fc-elo", `${ranks.faceit_elo.toLocaleString("en-US")} ELO`);
@@ -420,6 +449,11 @@ if (donateScrollBtn) {
 
     if (typeof ranks.faceit === "number" && ranks.faceit > PEAKS.faceitLevel) {
       setText("fc-peak-lvl", `Level ${ranks.faceit}`);
+      const fcPeakIcon = document.getElementById("fc-peak-icon");
+      if (fcPeakIcon) {
+        fcPeakIcon.src = faceitIconSrc(ranks.faceit);
+        fcPeakIcon.alt = `FACEIT Level ${ranks.faceit}`;
+      }
     }
     if (typeof ranks.faceit_elo === "number" && ranks.faceit_elo > PEAKS.faceitElo) {
       setText("fc-peak-elo", `${ranks.faceit_elo.toLocaleString("en-US")} ELO`);

@@ -20,7 +20,7 @@
     href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Bricolage+Grotesque:wght@600;700;800&family=Caveat:wght@700&family=JetBrains+Mono:wght@500;600&family=Orbitron:wght@700;800&family=Playfair+Display:ital,wght@1,700&family=Silkscreen:wght@400;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=5" />
+  <link rel="stylesheet" href="style.css?v=7" />
 </head>
 <body>
   <canvas id="liquid-bg" aria-hidden="true"></canvas>
@@ -224,27 +224,41 @@
             <div class="cs2-rank-block">
               <span class="cs2-label">Premier</span>
               <strong class="cs2-rank-val">
-                <span id="mm-premier-dot" class="tier-dot tier-premier-pink" aria-hidden="true"></span>
+                <svg id="mm-premier-icon" class="rank-icon-premier tier-premier-pink" viewBox="0 0 32 24" width="30" height="22" aria-hidden="true">
+                  <polygon points="5,2 30,2 27,22 2,22" fill="#181409" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                  <polygon points="7.5,5.5 11.5,5.5 9.5,18.5 5.5,18.5" fill="currentColor" />
+                  <polygon points="13.5,5.5 17.5,5.5 15.5,18.5 11.5,18.5" fill="currentColor" opacity="0.85" />
+                  <polygon points="20,9.5 25.5,9.5 24.8,14.5 19.3,14.5" fill="currentColor" opacity="0.55" />
+                </svg>
                 <span id="mm-premier">21,187</span>
               </strong>
               <span class="cs2-peak">
                 <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="m3 18 2-10 4.5 4L12 5l2.5 7L19 8l2 10Z" />
                 </svg>
-                Highest: <strong id="mm-premier-peak">23,679</strong> <span id="mm-premier-peak-meta">• S3</span>
+                Highest:
+                <svg id="mm-premier-peak-icon" class="rank-icon-premier-sm tier-premier-pink" viewBox="0 0 32 24" width="18" height="13" aria-hidden="true">
+                  <polygon points="5,2 30,2 27,22 2,22" fill="#181409" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+                  <polygon points="7.5,5.5 11.5,5.5 9.5,18.5 5.5,18.5" fill="currentColor" />
+                  <polygon points="13.5,5.5 17.5,5.5 15.5,18.5 11.5,18.5" fill="currentColor" opacity="0.85" />
+                </svg>
+                <strong id="mm-premier-peak">23,679</strong> <span id="mm-premier-peak-meta">• S3</span>
               </span>
             </div>
 
             <div class="cs2-rank-block">
               <span class="cs2-label">Competitive</span>
               <strong class="cs2-rank-val">
+                <img id="mm-comp-icon" class="rank-icon-comp" src="assets/ranks/comp-16.png" alt="Legendary Eagle Master" width="60" height="24" />
                 <span id="mm-comp-rank" title="Legendary Eagle Master">LEM</span>
               </strong>
               <span class="cs2-peak">
                 <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="m3 18 2-10 4.5 4L12 5l2.5 7L19 8l2 10Z" />
                 </svg>
-                Highest: <strong id="mm-comp-peak" title="Legendary Eagle Master">LEM</strong> <span id="mm-comp-peak-meta">• Mirage</span>
+                Highest:
+                <img id="mm-comp-peak-icon" class="rank-icon-comp-sm" src="assets/ranks/comp-16.png" alt="" width="38" height="15" aria-hidden="true" />
+                <strong id="mm-comp-peak" title="Legendary Eagle Master">LEM</strong> <span id="mm-comp-peak-meta">• Mirage</span>
               </span>
             </div>
 
@@ -336,11 +350,11 @@
           <div class="cs2-subblock">
             <span class="cs2-label">Competitive Map Ranks</span>
             <div id="mm-comp-maps" class="cs2-chips-row">
-              <span class="cs2-chip" title="Legendary Eagle Master"><span class="cs2-chip-name">Mirage</span><strong class="cs2-chip-val">LEM</strong></span>
-              <span class="cs2-chip" title="Distinguished Master Guardian"><span class="cs2-chip-name">Dust 2</span><strong class="cs2-chip-val">DMG</strong></span>
-              <span class="cs2-chip" title="Gold Nova Master"><span class="cs2-chip-name">Nuke</span><strong class="cs2-chip-val">GNM</strong></span>
-              <span class="cs2-chip" title="Gold Nova I"><span class="cs2-chip-name">Inferno</span><strong class="cs2-chip-val">GN1</strong></span>
-              <span class="cs2-chip" title="Silver Elite"><span class="cs2-chip-name">Ancient</span><strong class="cs2-chip-val">SE</strong></span>
+              <span class="cs2-chip" title="Legendary Eagle Master"><span class="cs2-chip-name">Mirage</span><img class="rank-icon-chip" src="assets/ranks/comp-16.png" alt="" width="40" height="16" aria-hidden="true" /><strong class="cs2-chip-val">LEM</strong></span>
+              <span class="cs2-chip" title="Distinguished Master Guardian"><span class="cs2-chip-name">Dust 2</span><img class="rank-icon-chip" src="assets/ranks/comp-14.png" alt="" width="40" height="16" aria-hidden="true" /><strong class="cs2-chip-val">DMG</strong></span>
+              <span class="cs2-chip" title="Gold Nova Master"><span class="cs2-chip-name">Nuke</span><img class="rank-icon-chip" src="assets/ranks/comp-10.png" alt="" width="40" height="16" aria-hidden="true" /><strong class="cs2-chip-val">GNM</strong></span>
+              <span class="cs2-chip" title="Gold Nova I"><span class="cs2-chip-name">Inferno</span><img class="rank-icon-chip" src="assets/ranks/comp-7.png" alt="" width="40" height="16" aria-hidden="true" /><strong class="cs2-chip-val">GN1</strong></span>
+              <span class="cs2-chip" title="Silver Elite"><span class="cs2-chip-name">Ancient</span><img class="rank-icon-chip" src="assets/ranks/comp-5.png" alt="" width="40" height="16" aria-hidden="true" /><strong class="cs2-chip-val">SE</strong></span>
             </div>
           </div>
 
@@ -407,7 +421,7 @@
             <div class="cs2-rank-block">
               <span class="cs2-label">FACEIT Level</span>
               <strong class="cs2-rank-val">
-                <span id="fc-lvl-dot" class="tier-dot tier-faceit-9" aria-hidden="true"></span>
+                <img id="fc-lvl-icon" class="rank-icon-faceit" src="assets/ranks/faceit-9.svg" alt="FACEIT Level 9" width="28" height="28" />
                 <span id="fc-level">Level 9</span>
               </strong>
               <span class="cs2-sub" id="fc-elo">1,885 ELO</span>
@@ -416,7 +430,7 @@
             <div class="cs2-rank-block">
               <span class="cs2-label">Highest Rank</span>
               <strong class="cs2-rank-val">
-                <span class="tier-dot tier-faceit-10" aria-hidden="true"></span>
+                <img id="fc-peak-icon" class="rank-icon-faceit" src="assets/ranks/faceit-10.svg" alt="FACEIT Level 10" width="28" height="28" />
                 <span id="fc-peak-lvl">Level 10</span>
               </strong>
               <span class="cs2-peak">
@@ -937,6 +951,6 @@
     <span id="bgm-note" class="bgm-note" hidden></span>
   </aside>
 
-  <script src="script.js?v=5"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>

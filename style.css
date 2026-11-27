@@ -685,7 +685,7 @@ h3 {
   color: var(--ink-soft);
 }
 
-.cs2-peak svg {
+.cs2-peak > svg:first-child {
   flex-shrink: 0;
   color: var(--ink);
 }
@@ -695,66 +695,76 @@ h3 {
   font-weight: 600;
 }
 
-.tier-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
 .tier-premier-grey {
-  background: #8B939E;
-  box-shadow: 0 0 0 3px rgba(139, 147, 158, 0.22);
+  color: #B0C3D9;
 }
 
 .tier-premier-lightblue {
-  background: #67C1F5;
-  box-shadow: 0 0 0 3px rgba(103, 193, 245, 0.24);
+  color: #67C1F5;
 }
 
 .tier-premier-blue {
-  background: #3B82F6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.22);
+  color: #4B69FF;
 }
 
 .tier-premier-purple {
-  background: #9333EA;
-  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.2);
+  color: #A855F7;
 }
 
 .tier-premier-pink {
-  background: #EC4899;
-  box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2);
+  color: #EC4899;
 }
 
 .tier-premier-red {
-  background: #EB4B4B;
-  box-shadow: 0 0 0 3px rgba(235, 75, 75, 0.22);
+  color: #EF4444;
 }
 
 .tier-premier-gold {
-  background: #D99A00;
-  box-shadow: 0 0 0 3px rgba(217, 154, 0, 0.24);
+  color: #FACC15;
 }
 
-.tier-faceit-low {
-  background: #1CE400;
-  box-shadow: 0 0 0 3px rgba(28, 228, 0, 0.22);
+.rank-icon-premier {
+  width: 30px;
+  height: 22px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(24, 20, 9, 0.2));
 }
 
-.tier-faceit-mid {
-  background: #FFC800;
-  box-shadow: 0 0 0 3px rgba(255, 200, 0, 0.24);
+.rank-icon-premier-sm {
+  width: 18px;
+  height: 13px;
+  flex-shrink: 0;
+  vertical-align: middle;
 }
 
-.tier-faceit-9 {
-  background: #FE650E;
-  box-shadow: 0 0 0 3px rgba(254, 101, 14, 0.22);
+.rank-icon-comp {
+  height: 26px;
+  width: auto;
+  flex-shrink: 0;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 5px rgba(24, 20, 9, 0.25));
 }
 
-.tier-faceit-10 {
-  background: #FE1F00;
-  box-shadow: 0 0 0 3px rgba(254, 31, 0, 0.2);
+.rank-icon-comp-sm {
+  height: 15px;
+  width: auto;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.rank-icon-chip {
+  height: 17px;
+  width: auto;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.rank-icon-faceit {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  filter: drop-shadow(0 2px 5px rgba(24, 20, 9, 0.22));
 }
 
 /* Premier vs Competitive Split Cards */
@@ -872,7 +882,7 @@ h3 {
 .cs2-chip {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   padding: 6px 11px;
   border-radius: 9px;
   background: rgba(24, 20, 9, 0.05);
@@ -1696,6 +1706,15 @@ h3 {
   .cs2-mini-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
+  }
+
+  .rank-icon-comp {
+    height: 24px;
+  }
+
+  .rank-icon-faceit {
+    width: 26px;
+    height: 26px;
   }
 
   .bgm-player {

@@ -21,5 +21,5 @@ Trang giới thiệu cá nhân tối giản gắn trên Steam Profile của **Er
 - `index.html`: Cấu trúc trang tối giản.
 - `style.css`: Các ô đồng màu nền tối nhẹ và hiệu ứng hover nâng nổi.
 - `script.js`: Đồng bộ CS2 Stats, hồ sơ Discord, nhạc nền YouTube IFrame Player API, shader WebGL gợn sóng nước êm, cuộn mượt và hiệu ứng chữ `Erist`.
-- `assets/*.png`, `assets/game-*.jpg` & `assets/paypal-qr.svg`: Bộ ảnh sản phẩm tách nền, bìa game, avatar Discord, Potato PC và mã QR PayPal.
+- `assets/*.png`, `assets/ranks/` (18 huy hiệu Competitive & 10 icon cấp FACEIT), `assets/game-*.jpg` & `assets/paypal-qr.svg`: Bộ ảnh sản phẩm tách nền, huy hiệu rank CS2/FACEIT, bìa game, avatar Discord, Potato PC và mã QR PayPal.
 - `CNAME`: Tên miền tùy chỉnh `instaserist.ggff.net` cho GitHub Pages.
