@@ -1,17 +1,16 @@
-# Erist — Personal Steam Profile (`instaserist.ggff.net`)
+# Erist — Personal Steam & Gear (`instaserist.ggff.net`)
 
-Trang giới thiệu cá nhân gắn trên Steam Profile của **Erist**, sử dụng tông màu chủ đạo vàng Kessoku lấy cảm hứng từ **Ijichi Nijika** (*Bocchi the Rock!*).
+Trang giới thiệu cá nhân tối giản gắn trên Steam Profile của **Erist**, sử dụng nền **Yellow Liquid** chuyển động mượt mà bằng WebGL kết hợp ảnh tách nền thực tế của bộ gear và màn hình.
 
 ## Nội dung chính
-- **Hồ sơ & Kết nối:** Steam Profile (`76561198845357399` / Friend Code `885091671`) và YouTube (`@erist2689`).
-- **Tribute Ijichi Nijika:** Bảng màu vàng chủ đạo (`#FFD230`) kết hợp nền đen ấm sân khấu (`#0E0D0A`) và nút tương tác **Dorito Beat**.
-- **Gear & Màn hình:** Delux M500 Pro, EWEADN ZAP68 Ultra, AULA G7 Pro, màn hình chính KTC 24" 240Hz và màn hình phụ ASUS 24" 144Hz.
-- **Potato PC:** Minh họa Potato PC (`assets/potato-pc.png`) kèm thông số vui nhộn.
+- **Hero tối giản:** Tên **Erist**, nút mở Steam Profile (`76561198845357399`), kênh YouTube (`@erist2689`) và Steam Friend Code (`885091671`).
+- **Bộ lọc trong suốt:** Chuyển nhanh giữa `Tất cả`, `Gear`, `Màn hình`, `PC` và `Kết nối`.
+- **Gear & Màn hình tách nền thực tế:** Delux M500 Pro, EWEADN ZAP68 Ultra, AULA G7 Pro, KTC 24" 240Hz và ASUS 24" 144Hz.
+- **Potato PC:** Ảnh tách nền (`assets/potato-cutout.png`) hiển thị trực tiếp trên nền chất lỏng vàng.
 
 ## Cấu trúc thư mục
-- `index.html`: Nội dung chính của trang web.
-- `style.css`: Giao diện, bảng màu, typography và bố cục responsive.
-- `script.js`: Sao chép Friend Code / URL và hiệu ứng tương tác **Dorito Beat**.
-- `assets/nijika-stage.png`: Ảnh minh họa phong cách Nijika trên sân khấu.
-- `assets/potato-pc.png`: Ảnh minh họa Potato PC.
+- `index.html`: Cấu trúc trang và các mục hiển thị.
+- `style.css`: Tông mực ấm trên nền vàng nhạt trong suốt và bố cục responsive.
+- `script.js`: Shader WebGL nền chất lỏng vàng, bộ lọc tab và nút sao chép nhanh.
+- `assets/*.png`: Bộ ảnh sản phẩm và Potato PC đã tách nền.
 - `CNAME`: Tên miền tùy chỉnh `instaserist.ggff.net` cho GitHub Pages.
