@@ -1462,3 +1462,426 @@ if (donateScrollBtn) {
     }
   }
 })();
+
+// STARRY Pop-up 3x3 Mini-Game (Ijichi Nijika Drummer Edition)
+(function initStarryGame() {
+  const BEST_KEY = "erist_starry_best";
+  const ROUND_SECONDS = 30;
+  const MAX_LIVES = 3;
+  const SPRITES = {
+    crate: "assets/game-starry/crate-empty.png",
+    nijika: "assets/game-starry/pop-nijika.png",
+    dorito: "assets/game-starry/pop-dorito.png",
+    bocchi: "assets/game-starry/pop-bocchi.png",
+    stick: "assets/game-starry/drumstick.png",
+  };
+
+  const board = document.getElementById("starry-board");
+  const cells = Array.from(document.querySelectorAll(".starry-cell"));
+  const stickEl = document.getElementById("starry-stick");
+  const overlayEl = document.getElementById("starry-overlay");
+  const ovTitleEl = document.getElementById("starry-ov-title");
+  const ovSubEl = document.getElementById("starry-ov-sub");
+  const ovResultEl = document.getElementById("starry-ov-result");
+  const playBtn = document.getElementById("starry-play-btn");
+  const startBtn = document.getElementById("starry-start");
+  const sfxBtn = document.getElementById("starry-sfx");
+  const sfxOnIcon = document.getElementById("starry-ico-sfx-on");
+  const sfxOffIcon = document.getElementById("starry-ico-sfx-off");
+  const scoreEl = document.getElementById("starry-score");
+  const comboEl = document.getElementById("starry-combo");
+  const timeEl = document.getElementById("starry-time");
+  const bestEl = document.getElementById("starry-best");
+  const livesWrap = document.getElementById("starry-lives");
+  const hearts = livesWrap ? Array.from(livesWrap.querySelectorAll(".starry-heart")) : [];
+
+  if (!board || cells.length !== 9 || !overlayEl || !playBtn || !startBtn) {
+    return;
+  }
+
+  // Preload all 5 PNG sprites for zero-flicker pop-ups
+  Object.values(SPRITES).forEach((src) => {
+    const pre = new Image();
+    pre.src = src;
+  });
+
+  let bestScore = 0;
+  try {
+    const saved = Number(localStorage.getItem(BEST_KEY));
+    if (!Number.isNaN(saved) && saved > 0) bestScore = saved;
+  } catch {
+    // Ignore storage error
+  }
+  if (bestEl) bestEl.textContent = String(bestScore);
+
+  let running = false;
+  let score = 0;
+  let combo = 0;
+  let maxCombo = 0;
+  let timeLeft = ROUND_SECONDS;
+  let lives = MAX_LIVES;
+  let sfxOn = true;
+  let lastSlot = -1;
+
+  let roundTimer = null;
+  let spawnTimer = null;
+  let stickStrikeTimer = null;
+  let stickTouchHideTimer = null;
+  let audioCtx = null;
+
+  const activeSlots = new Map();
+
+  function setSvgHidden(el, shouldHide) {
+    if (!el) return;
+    if (shouldHide) el.setAttribute("hidden", "");
+    else el.removeAttribute("hidden");
+  }
+
+  function playSfx(kind, currentCombo) {
+    if (!sfxOn) return;
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    if (!audioCtx) audioCtx = new Ctx();
+    if (audioCtx.state === "suspended") {
+      audioCtx.resume().catch(() => {});
+    }
+
+    const now = audioCtx.currentTime;
+    const gain = audioCtx.createGain();
+    const osc = audioCtx.createOscillator();
+
+    if (kind === "nijika") {
+      const pitchBoost = Math.min(currentCombo, 10) * 18;
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(220 + pitchBoost, now);
+      osc.frequency.exponentialRampToValueAtTime(95, now + 0.09);
+      gain.gain.setValueAtTime(0.16, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.11);
+    } else if (kind === "dorito") {
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(660, now);
+      osc.frequency.setValueAtTime(990, now + 0.055);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.17);
+    } else {
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(165, now);
+      osc.frequency.linearRampToValueAtTime(92, now + 0.18);
+      gain.gain.setValueAtTime(0.14, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.19);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.2);
+    }
+  }
+
+  function updateHud() {
+    if (scoreEl) scoreEl.textContent = String(score);
+    if (comboEl) comboEl.textContent = `x${combo}`;
+    if (timeEl) timeEl.textContent = `${timeLeft}s`;
+    if (bestEl) bestEl.textContent = String(bestScore);
+    if (livesWrap) livesWrap.setAttribute("aria-label", `Còn ${Math.max(0, lives)} tim`);
+    hearts.forEach((h, i) => {
+      h.classList.toggle("is-lost", i >= lives);
+    });
+  }
+
+  function clearCell(slotIdx) {
+    const cell = cells[slotIdx];
+    const state = activeSlots.get(slotIdx);
+    if (state && state.timeoutId) clearTimeout(state.timeoutId);
+    activeSlots.delete(slotIdx);
+    if (!cell) return;
+    cell.classList.remove("is-active");
+    delete cell.dataset.kind;
+  }
+
+  function clearAllCells() {
+    for (let i = 0; i < cells.length; i++) {
+      clearCell(i);
+    }
+  }
+
+  function triggerFx(cell, text, cls) {
+    const fx = cell.querySelector(".starry-fx");
+    if (!fx) return;
+    fx.className = `starry-fx ${cls}`;
+    fx.textContent = text;
+    void fx.offsetWidth;
+    fx.classList.add("is-pop");
+  }
+
+  function positionStickAt(boardX, boardY, transient) {
+    if (!stickEl) return;
+    const w = stickEl.offsetWidth || 72;
+    const h = stickEl.offsetHeight || 103;
+    // Anchor bottom-left tip (~14% X, ~90% Y) right on pointer coordinates
+    const tx = Math.round(boardX - w * 0.14);
+    const ty = Math.round(boardY - h * 0.9);
+    stickEl.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+    stickEl.classList.add("is-visible");
+    if (transient) {
+      if (stickTouchHideTimer) clearTimeout(stickTouchHideTimer);
+      stickTouchHideTimer = setTimeout(() => {
+        stickEl.classList.remove("is-visible");
+      }, 260);
+    }
+  }
+
+  function animateStrike() {
+    if (!stickEl) return;
+    if (stickStrikeTimer) clearTimeout(stickStrikeTimer);
+    stickEl.classList.remove("is-striking");
+    void stickEl.offsetWidth;
+    stickEl.classList.add("is-striking");
+    stickStrikeTimer = setTimeout(() => {
+      stickEl.classList.remove("is-striking");
+    }, 115);
+  }
+
+  function spawnOne() {
+    if (!running) return;
+    const elapsed = ROUND_SECONDS - timeLeft;
+    const maxActive = elapsed >= 15 ? 3 : 2;
+    if (activeSlots.size >= maxActive) return;
+
+    const freeSlots = [];
+    for (let i = 0; i < cells.length; i++) {
+      if (!activeSlots.has(i) && i !== lastSlot) freeSlots.push(i);
+    }
+    if (freeSlots.length === 0) return;
+
+    const slot = freeSlots[Math.floor(Math.random() * freeSlots.length)];
+    lastSlot = slot;
+
+    const roll = Math.random();
+    const kind = roll < 0.58 ? "nijika" : roll < 0.74 ? "dorito" : "bocchi";
+    const cell = cells[slot];
+    const popImg = cell.querySelector(".starry-pop");
+    if (!popImg) return;
+
+    popImg.src = SPRITES[kind];
+    popImg.hidden = false;
+    cell.dataset.kind = kind;
+    void popImg.offsetWidth;
+    cell.classList.add("is-active");
+
+    const progress = elapsed / ROUND_SECONDS;
+    const baseStay = 1220 - progress * 460;
+    const stayMs = Math.round(kind === "dorito" ? baseStay * 0.84 : baseStay);
+
+    const timeoutId = setTimeout(() => {
+      clearCell(slot);
+    }, stayMs);
+
+    activeSlots.set(slot, { kind, hit: false, timeoutId });
+  }
+
+  function scheduleNextSpawn() {
+    if (!running) return;
+    spawnOne();
+    const progress = (ROUND_SECONDS - timeLeft) / ROUND_SECONDS;
+    const delay = Math.round(800 - progress * 340 + (Math.random() * 140 - 70));
+    spawnTimer = setTimeout(scheduleNextSpawn, Math.max(360, delay));
+  }
+
+  function rankLabel(s) {
+    if (s >= 420) return "Kessoku Headliner";
+    if (s >= 260) return "STARRY Ace Drummer";
+    if (s >= 140) return "Live House Regular";
+    return "Soundcheck Trainee";
+  }
+
+  function endGame(outOfLives) {
+    running = false;
+    if (roundTimer) clearInterval(roundTimer);
+    if (spawnTimer) clearTimeout(spawnTimer);
+    roundTimer = null;
+    spawnTimer = null;
+    clearAllCells();
+    board.classList.remove("is-playing");
+    if (stickEl) stickEl.classList.remove("is-visible", "is-striking");
+
+    let isNewBest = false;
+    if (score > bestScore) {
+      bestScore = score;
+      isNewBest = true;
+      try {
+        localStorage.setItem(BEST_KEY, String(bestScore));
+      } catch {
+        // Ignore storage error
+      }
+    }
+    updateHud();
+
+    if (ovTitleEl) ovTitleEl.textContent = outOfLives ? "Bocchi tan chảy mất rồi!" : "Hết giờ diễn!";
+    if (ovSubEl) {
+      ovSubEl.textContent = isNewBest
+        ? `Kỷ lục mới: ${score} điểm • ${rankLabel(score)}`
+        : `Hạng: ${rankLabel(score)} — Thử lại để phá mốc ${bestScore}!`;
+    }
+    if (ovResultEl) {
+      ovResultEl.textContent = `Score: ${score} • Max Combo: x${maxCombo} • Best: ${bestScore}`;
+      ovResultEl.hidden = false;
+    }
+    playBtn.textContent = "Chơi lại";
+    startBtn.textContent = "Chơi lại";
+    overlayEl.hidden = false;
+  }
+
+  function startGame() {
+    if (roundTimer) clearInterval(roundTimer);
+    if (spawnTimer) clearTimeout(spawnTimer);
+    clearAllCells();
+
+    score = 0;
+    combo = 0;
+    maxCombo = 0;
+    timeLeft = ROUND_SECONDS;
+    lives = MAX_LIVES;
+    lastSlot = -1;
+    running = true;
+
+    overlayEl.hidden = true;
+    board.classList.add("is-playing");
+    startBtn.textContent = "Chơi lại";
+    updateHud();
+
+    roundTimer = setInterval(() => {
+      if (!running) return;
+      timeLeft -= 1;
+      updateHud();
+      if (timeLeft <= 0) {
+        endGame(false);
+      }
+    }, 1000);
+
+    scheduleNextSpawn();
+  }
+
+  function hitSlot(slotIdx, pointerEvent) {
+    if (!running) return;
+    const cell = cells[slotIdx];
+    if (!cell) return;
+
+    const boardRect = board.getBoundingClientRect();
+    if (pointerEvent && typeof pointerEvent.clientX === "number" && pointerEvent.clientX > 0) {
+      const x = pointerEvent.clientX - boardRect.left;
+      const y = pointerEvent.clientY - boardRect.top;
+      positionStickAt(x, y, pointerEvent.pointerType !== "mouse");
+    } else {
+      const cellRect = cell.getBoundingClientRect();
+      positionStickAt(
+        cellRect.left - boardRect.left + cellRect.width * 0.5,
+        cellRect.top - boardRect.top + cellRect.height * 0.48,
+        true
+      );
+    }
+    animateStrike();
+
+    const state = activeSlots.get(slotIdx);
+    if (!state || state.hit) {
+      if (!state && combo > 0) {
+        combo = 0;
+        updateHud();
+      }
+      return;
+    }
+
+    state.hit = true;
+    if (state.kind === "nijika") {
+      combo += 1;
+      if (combo > maxCombo) maxCombo = combo;
+      const pts = 10 + Math.min(combo - 1, 10) * 2;
+      score += pts;
+      cell.classList.add("is-hit-good");
+      triggerFx(cell, `+${pts}`, "fx-good");
+      playSfx("nijika", combo);
+    } else if (state.kind === "dorito") {
+      combo += 2;
+      if (combo > maxCombo) maxCombo = combo;
+      const pts = 30 + Math.min(combo, 12) * 2;
+      score += pts;
+      cell.classList.add("is-hit-good");
+      triggerFx(cell, `+${pts} ★`, "fx-dorito");
+      playSfx("dorito", combo);
+    } else {
+      lives -= 1;
+      combo = 0;
+      cell.classList.add("is-hit-bad");
+      triggerFx(cell, "−1 ♥", "fx-bad");
+      board.classList.remove("is-shake");
+      void board.offsetWidth;
+      board.classList.add("is-shake");
+      playSfx("bocchi", 0);
+    }
+
+    updateHud();
+    setTimeout(() => {
+      cell.classList.remove("is-hit-good", "is-hit-bad");
+      clearCell(slotIdx);
+      if (running && lives <= 0) {
+        endGame(true);
+      }
+    }, 110);
+  }
+
+  board.addEventListener("pointermove", (e) => {
+    if (!running || e.pointerType !== "mouse") return;
+    const rect = board.getBoundingClientRect();
+    positionStickAt(e.clientX - rect.left, e.clientY - rect.top, false);
+  });
+
+  board.addEventListener("pointerleave", () => {
+    if (stickEl) stickEl.classList.remove("is-visible");
+  });
+
+  cells.forEach((cell) => {
+    cell.addEventListener("pointerdown", (e) => {
+      if (!running) return;
+      e.preventDefault();
+      hitSlot(Number(cell.dataset.slot), e);
+    });
+  });
+
+  const KEY_TO_SLOT = {
+    q: 0, w: 1, e: 2,
+    a: 3, s: 4, d: 5,
+    z: 6, x: 7, c: 8,
+    "1": 0, "2": 1, "3": 2,
+    "4": 3, "5": 4, "6": 5,
+    "7": 6, "8": 7, "9": 8,
+  };
+
+  document.addEventListener("keydown", (e) => {
+    if (!running || e.repeat) return;
+    const tag = e.target && e.target.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA") return;
+    const slot = KEY_TO_SLOT[e.key.toLowerCase()];
+    if (typeof slot === "number") {
+      hitSlot(slot, null);
+    }
+  });
+
+  playBtn.addEventListener("click", startGame);
+  startBtn.addEventListener("click", startGame);
+
+  if (sfxBtn) {
+    sfxBtn.addEventListener("click", () => {
+      sfxOn = !sfxOn;
+      sfxBtn.setAttribute("aria-pressed", sfxOn ? "false" : "true");
+      sfxBtn.setAttribute("aria-label", sfxOn ? "Tắt âm thanh game" : "Bật âm thanh game");
+      setSvgHidden(sfxOnIcon, !sfxOn);
+      setSvgHidden(sfxOffIcon, sfxOn);
+    });
+  }
+})();

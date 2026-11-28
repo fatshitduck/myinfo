@@ -20,7 +20,7 @@
     href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Bricolage+Grotesque:wght@600;700;800&family=Caveat:wght@700&family=JetBrains+Mono:wght@500;600&family=Orbitron:wght@700;800&family=Playfair+Display:ital,wght@1,700&family=Silkscreen:wght@400;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="stylesheet" href="style.css?v=8" />
 </head>
 <body>
   <canvas id="liquid-bg" aria-hidden="true"></canvas>
@@ -660,6 +660,155 @@
       </div>
     </section>
 
+    <!-- STARRY Pop-up 3x3 Mini-Game Section -->
+    <section id="starry-game" class="showcase-section" aria-labelledby="heading-starry">
+      <h2 id="heading-starry">STARRY Pop-up</h2>
+
+      <article class="starry-tile">
+        <div class="starry-hud">
+          <div class="starry-stats">
+            <div class="starry-stat">
+              <span class="cs2-label">Score</span>
+              <strong id="starry-score" class="starry-stat-val">0</strong>
+            </div>
+
+            <div class="starry-stat">
+              <span class="cs2-label">Combo</span>
+              <strong id="starry-combo" class="starry-stat-val">x0</strong>
+            </div>
+
+            <div class="starry-stat">
+              <span class="cs2-label">Time</span>
+              <strong id="starry-time" class="starry-stat-val">30s</strong>
+            </div>
+
+            <div class="starry-stat">
+              <span class="cs2-label">Best</span>
+              <strong id="starry-best" class="starry-stat-val">0</strong>
+            </div>
+
+            <div class="starry-stat">
+              <span class="cs2-label">Lives</span>
+              <div id="starry-lives" class="starry-lives" aria-label="Còn 3 tim">
+                <svg class="starry-heart" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <path d="M12 20.6 4.4 13.3a4.9 4.9 0 0 1 6.9-6.9L12 7.1l.7-.7a4.9 4.9 0 0 1 6.9 6.9L12 20.6Z" />
+                </svg>
+                <svg class="starry-heart" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <path d="M12 20.6 4.4 13.3a4.9 4.9 0 0 1 6.9-6.9L12 7.1l.7-.7a4.9 4.9 0 0 1 6.9 6.9L12 20.6Z" />
+                </svg>
+                <svg class="starry-heart" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <path d="M12 20.6 4.4 13.3a4.9 4.9 0 0 1 6.9-6.9L12 7.1l.7-.7a4.9 4.9 0 0 1 6.9 6.9L12 20.6Z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="starry-actions">
+            <button
+              type="button"
+              id="starry-sfx"
+              class="starry-icon-btn"
+              aria-label="Tắt âm thanh game"
+              aria-pressed="false"
+              title="Bật / tắt âm thanh trống"
+            >
+              <svg id="starry-ico-sfx-on" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+              </svg>
+              <svg id="starry-ico-sfx-off" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden>
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                <line x1="22" y1="9" x2="16" y2="15" />
+                <line x1="16" y1="9" x2="22" y2="15" />
+              </svg>
+            </button>
+
+            <button type="button" id="starry-start" class="starry-cta-sm">Chơi ngay</button>
+          </div>
+        </div>
+
+        <div class="starry-board-wrap">
+          <div id="starry-board" class="starry-board" role="group" aria-label="Lưới 3×3 STARRY Pop-up">
+            <button type="button" class="starry-cell" data-slot="0" aria-label="Ô STARRY 1 (Q)">
+              <img class="starry-crate" src="assets/game-starry/crate-empty.png" alt="" draggable="false" />
+              <img class="starry-pop" src="assets/game-starry/pop-nijika.png" alt="" draggable="false" hidden />
+              <span class="starry-fx" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="starry-cell" data-slot="1" aria-label="Ô STARRY 2 (W)">
+              <img class="starry-crate" src="assets/game-starry/crate-empty.png" alt="" draggable="false" />
+              <img class="starry-pop" src="assets/game-starry/pop-nijika.png" alt="" draggable="false" hidden />
+              <span class="starry-fx" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="starry-cell" data-slot="2" aria-label="Ô STARRY 3 (E)">
+              <img class="starry-crate" src="assets/game-starry/crate-empty.png" alt="" draggable="false" />
+              <img class="starry-pop" src="assets/game-starry/pop-nijika.png" alt="" draggable="false" hidden />
+              <span class="starry-fx" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="starry-cell" data-slot="3" aria-label="Ô STARRY 4 (A)">
+              <img class="starry-crate" src="assets/game-starry/crate-empty.png" alt="" draggable="false" />
+              <img class="starry-pop" src="assets/game-starry/pop-nijika.png" alt="" draggable="false" hidden />
+              <span class="starry-fx" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="starry-cell" data-slot="4" aria-label="Ô STARRY 5 (S)">
+              <img class="starry-crate" src="assets/game-starry/crate-empty.png" alt="" draggable="false" />
+              <img class="starry-pop" src="assets/game-starry/pop-nijika.png" alt="" draggable="false" hidden />
+              <span class="starry-fx" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="starry-cell" data-slot="5" aria-label="Ô STARRY 6 (D)">
+              <img class="starry-crate" src="assets/game-starry/crate-empty.png" alt="" draggable="false" />
+              <img class="starry-pop" src="assets/game-starry/pop-nijika.png" alt="" draggable="false" hidden />
+              <span class="starry-fx" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="starry-cell" data-slot="6" aria-label="Ô STARRY 7 (Z)">
+              <img class="starry-crate" src="assets/game-starry/crate-empty.png" alt="" draggable="false" />
+              <img class="starry-pop" src="assets/game-starry/pop-nijika.png" alt="" draggable="false" hidden />
+              <span class="starry-fx" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="starry-cell" data-slot="7" aria-label="Ô STARRY 8 (X)">
+              <img class="starry-crate" src="assets/game-starry/crate-empty.png" alt="" draggable="false" />
+              <img class="starry-pop" src="assets/game-starry/pop-nijika.png" alt="" draggable="false" hidden />
+              <span class="starry-fx" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="starry-cell" data-slot="8" aria-label="Ô STARRY 9 (C)">
+              <img class="starry-crate" src="assets/game-starry/crate-empty.png" alt="" draggable="false" />
+              <img class="starry-pop" src="assets/game-starry/pop-nijika.png" alt="" draggable="false" hidden />
+              <span class="starry-fx" aria-hidden="true"></span>
+            </button>
+
+            <span id="starry-stick" class="starry-stick" aria-hidden="true">
+              <img src="assets/game-starry/drumstick.png" alt="" width="72" height="103" draggable="false" />
+            </span>
+
+            <div id="starry-overlay" class="starry-overlay">
+              <h3 id="starry-ov-title">STARRY Pop-up</h3>
+              <p id="starry-ov-sub">Dùng dùi trống gõ nhanh Nijika &amp; Dorito — né Bocchi đang hoảng loạn!</p>
+              <div id="starry-ov-result" class="starry-ov-result" hidden></div>
+              <button type="button" id="starry-play-btn" class="starry-cta">Bắt đầu chơi</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="starry-foot">
+          <div class="starry-legend">
+            <span class="starry-legend-pill">
+              <img src="assets/game-starry/pop-nijika.png" alt="" width="24" height="32" />
+              <span>Nijika +10</span>
+            </span>
+            <span class="starry-legend-pill">
+              <img src="assets/game-starry/pop-dorito.png" alt="" width="24" height="26" />
+              <span>Dorito +30</span>
+            </span>
+            <span class="starry-legend-pill is-trap">
+              <img src="assets/game-starry/pop-bocchi.png" alt="" width="24" height="27" />
+              <span>Né Bocchi −1 ♥</span>
+            </span>
+          </div>
+          <span class="cs2-sub">Click / chạm hoặc phím QWE·ASD·ZXC</span>
+        </div>
+      </article>
+    </section>
+
     <!-- Gear Section -->
     <section class="showcase-section" aria-labelledby="heading-gear">
       <h2 id="heading-gear">Gear</h2>
@@ -951,6 +1100,6 @@
     <span id="bgm-note" class="bgm-note" hidden></span>
   </aside>
 
-  <script src="script.js?v=6"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>
