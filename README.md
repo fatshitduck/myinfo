@@ -1,4 +1,4 @@
-# Erist — Personal Steam & Gear (`instaserist.ggff.net`)
+# Erist — Personal Steam & Gear (`erist.ggff.net`)
 
 Trang giới thiệu cá nhân tối giản gắn trên Steam Profile của **Erist**, sử dụng nền **Yellow Liquid** gợn sóng nước êm dịu theo con trỏ chuột bằng WebGL, tiêu đề **Erist** biến hóa mỗi 3 giây, thẻ hồ sơ **Discord** trực tiếp (`737671991288397915`), biểu tượng chỏm tóc nghiêng của **Ijichi Nijika**, **CS2 Live Stats**, **Favourite Games**, ảnh tách nền thực tế của **Gear**, **Monitor**, **PC Specs** và mục **Buy me some caffeine** với mã QR PayPal.
 
@@ -22,4 +22,4 @@ Trang giới thiệu cá nhân tối giản gắn trên Steam Profile của **Er
 - `style.css`: Các ô đồng màu nền tối nhẹ và hiệu ứng hover nâng nổi.
 - `script.js`: Đồng bộ CS2 Stats, hồ sơ Discord, nhạc nền YouTube IFrame Player API, shader WebGL gợn sóng nước êm, cuộn mượt và hiệu ứng chữ `Erist`.
 - `assets/*.png`, `assets/ranks/` (18 huy hiệu Competitive & 10 icon cấp FACEIT), `assets/game-*.jpg` & `assets/paypal-qr.svg`: Bộ ảnh sản phẩm tách nền, huy hiệu rank CS2/FACEIT, bìa game, avatar Discord, Potato PC và mã QR PayPal.
-- `CNAME`: Tên miền tùy chỉnh `instaserist.ggff.net` cho GitHub Pages.
+- `CNAME`: Tên miền tùy chỉnh `erist.ggff.net` cho GitHub Pages.
